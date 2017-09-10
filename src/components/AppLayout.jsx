@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import Navigation from './Navigation';
 
-export default function AppLayout({ isLoggedIn, activeTab, children }) {
+export default function AppLayout({ activeTab, onLogout, children, userInfo, ...rest }) {
   return (
     <div>
-      <Navigation isLoggedIn={isLoggedIn} activeTab={activeTab} />
+      <Navigation activeTab={activeTab} onLogout={onLogout} userInfo={userInfo} {...rest} />
       <div>
         <Grid>
           {children}
@@ -17,13 +17,17 @@ export default function AppLayout({ isLoggedIn, activeTab, children }) {
 }
 
 AppLayout.propTypes = {
-  isLoggedIn: PropTypes.bool,
   children: PropTypes.node,
   activeTab: PropTypes.number,
+  onLogout: PropTypes.func.isRequired,
+  userInfo: PropTypes.shape({
+    username: PropTypes.string,
+    authToken: PropTypes.string,
+  }),
 };
 
 AppLayout.defaultProps = {
   children: null,
-  isLoggedIn: false,
   activeTab: 0,
+  userInfo: null,
 };

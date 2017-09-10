@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AppLayout from './AppLayout';
+import AppLayoutContainer from '../redux/containers/AppLayoutContainer';
 
 export default function AppLayoutRoute({ activeTab, component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={props => (
-        <AppLayout activeTab={activeTab}><Component {...props} /></AppLayout>
+        <AppLayoutContainer activeTab={activeTab}><Component {...props} /></AppLayoutContainer>
       )}
     />
   );
@@ -16,7 +16,7 @@ export default function AppLayoutRoute({ activeTab, component: Component, ...res
 
 AppLayoutRoute.propTypes = {
   activeTab: PropTypes.number,
-  component: PropTypes.element.isRequired,
+  component: PropTypes.func.isRequired,
 };
 
 AppLayoutRoute.defaultProps = {

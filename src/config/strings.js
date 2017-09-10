@@ -9,5 +9,6 @@ export default {
   already_have_account_question: 'Already have an account?',
   login_button: 'Login',
   register_button: 'Register',
+  logged_in_as: 'Logged in as: ',
 
 };
