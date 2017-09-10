@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import AppLayout from './AppLayout';
 
-export default function AppLayoutRoute({activeTab, component: Component, ...rest}) {
+export default function AppLayoutRoute({ activeTab, component: Component, ...rest }) {
   return (
     <Route
       {...rest}
@@ -12,3 +13,12 @@ export default function AppLayoutRoute({activeTab, component: Component, ...rest
     />
   );
 }
+
+AppLayoutRoute.propTypes = {
+  activeTab: PropTypes.number,
+  component: PropTypes.element.isRequired,
+};
+
+AppLayoutRoute.defaultProps = {
+  activeTab: 0,
+};

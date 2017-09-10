@@ -7,6 +7,7 @@ import LoginForm from '../components/LoginForm';
 
 export default function LoginPage() {
   function onSubmit(credentials) {
+    console.log(credentials);
   }
 
   return (

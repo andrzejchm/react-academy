@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid } from 'react-bootstrap';
 import Navigation from './Navigation';
 
-export default function AppLayout({isLoggedIn, activeTab, children}) {
+export default function AppLayout({ isLoggedIn, activeTab, children }) {
   return (
     <div>
       <Navigation isLoggedIn={isLoggedIn} activeTab={activeTab} />
