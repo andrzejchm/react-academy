@@ -1,37 +1,43 @@
 import React from 'react';
-import { Grid, Navbar, Jumbotron, Button } from 'react-bootstrap';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import AppLayoutRoute from './components/AppLayoutRoute';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import UsersPage from './pages/UsersPage';
+import RepairsListPage from './pages/RepairsListPage';
+import RepairDetailsPage from './pages/RepairDetailsPage';
+import NotFoundPage from './pages/NotFoundPage';
+import config from './config/config';
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <Navbar inverse fixedTop>
-        <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="/">React App</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-        </Grid>
-      </Navbar>
-      <Jumbotron>
-        <Grid>
-          <h1>Welcome to React</h1>
-          <p>
-            <Button
-              bsStyle="success"
-              bsSize="large"
-              href="http://react-bootstrap.github.io/components.html"
-              target="_blank"
-            >
-              View React Bootstrap Docs
-            </Button>
-          </p>
-        </Grid>
-      </Jumbotron>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Redirect exact from="/" to={config.routes.repairs.path} />
+        <AppLayoutRoute
+          {...config.routes.repairs}
+          component={RepairsListPage}
+        />
+        <AppLayoutRoute
+          {...config.routes.repairDetails}
+          component={RepairDetailsPage}
+        />
+        <AppLayoutRoute
+          {...config.routes.users}
+          activeTab={2}
+          component={UsersPage}
+        />
+        <Route
+          {...config.routes.login}
+          component={LoginPage}
+        />
+        <Route
+          {...config.routes.register}
+          component={RegisterPage}
+        />
+        <AppLayoutRoute component={NotFoundPage} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
-
-export default App;
