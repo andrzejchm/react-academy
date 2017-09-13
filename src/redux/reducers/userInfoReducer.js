@@ -4,32 +4,63 @@ import {
   USER_REGISTER,
 } from '../actions/userInfoActions';
 
+import {
+  STATUS_LOADING,
+  STATUS_SUCCESS,
+  STATUS_NONE,
+} from '../actions/rest_api';
+import UserInfo from '../../data/UserInfo';
+
 const initialState = {
-  authToken: null,
-  username: null,
+  userInfo: new UserInfo(null, null, null),
+  status: STATUS_NONE,
+  error: null,
 };
 
-export default function userInfo(state = initialState, action) {
+function userLogin(action) {
   let newState;
+  switch (action.status) {
+    case STATUS_LOADING:
+      newState = {
+        ...initialState,
+      };
+      break;
+    case STATUS_SUCCESS:
+      newState = {
+        ...initialState,
+        userInfo: new UserInfo(
+          action.response.result.username,
+          action.headers['access-token'],
+          action.response.result.role),
+      };
+      break;
+    default:
+      newState = {
+        ...initialState,
+        error: action.error,
+      };
+      break;
+  }
+  newState.status = action.status;
+  return newState;
+}
+
+function userRegister(action) {
+  return userLogin(action);
+}
+
+function userLogout() {
+  return { ...initialState, status: STATUS_NONE };
+}
+
+export default function userInfo(state = initialState, action) {
   switch (action.type) {
     case USER_LOGOUT:
-      newState = {
-        authToken: null,
-        username: null,
-      };
-      return newState;
+      return userLogout();
     case USER_LOGIN:
-      newState = {
-        authToken: action.credentials.password,
-        username: action.credentials.username,
-      };
-      return newState;
+      return userLogin(action);
     case USER_REGISTER:
-      newState = {
-        authToken: action.credentials.password,
-        username: action.credentials.username,
-      };
-      return newState;
+      return userRegister(action);
     default:
       return state;
   }

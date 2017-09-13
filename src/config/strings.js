@@ -10,5 +10,8 @@ export default {
   login_button: 'Login',
   register_button: 'Register',
   logged_in_as: 'Logged in as: ',
+  login_progress: 'Logging in...',
+  no_response: 'there was no response from the server',
+  invalid_request: 'invalid request',
 
 };

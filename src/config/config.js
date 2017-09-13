@@ -1,4 +1,5 @@
 export default {
+  baseURL: 'http://localhost:8080/api',
   routes: {
     repairs: {
       path: '/repairs',
