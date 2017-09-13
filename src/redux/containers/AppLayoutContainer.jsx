@@ -4,7 +4,7 @@ import { logout } from '../actions/userInfoActions';
 import AppLayout from '../../components/AppLayout';
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo,
+  userInfo: state.userInfo.userInfo,
 });
 
 const mapDispatchToProps = dispatch => ({

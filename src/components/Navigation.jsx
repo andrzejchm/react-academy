@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { Link } from 'react-router-dom';
 import { Navbar, Grid, Nav, NavItem } from 'react-bootstrap';
 import strings from '../config/strings';
 import config from '../config/config';
+import { UserInfoShape } from '../data/UserInfo';
 
 export default function Navigation({ activeTab, userInfo, onLogout, history }) {
   let loginStatus;
-  if (userInfo && userInfo.authToken) {
+  if (userInfo && userInfo.username) {
     loginStatus = (
       <Navbar.Text pullRight>
         {strings.logged_in_as}&nbsp;{userInfo.username}&nbsp;
@@ -52,13 +54,8 @@ export default function Navigation({ activeTab, userInfo, onLogout, history }) {
 Navigation.propTypes = {
   activeTab: PropTypes.number,
   onLogout: PropTypes.func.isRequired,
-  userInfo: PropTypes.shape({
-    authToken: PropTypes.string,
-    username: PropTypes.string,
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
+  userInfo: UserInfoShape,
+  history: ReactRouterPropTypes.history.isRequired,
 };
 
 Navigation.defaultProps = {

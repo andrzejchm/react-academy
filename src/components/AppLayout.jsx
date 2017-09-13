@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import { Grid } from 'react-bootstrap';
 import Navigation from './Navigation';
+import { UserInfoShape } from '../data/UserInfo';
 
-export default function AppLayout({ activeTab, onLogout, children, userInfo, ...rest }) {
+export default function AppLayout({ activeTab, onLogout, children, userInfo, history }) {
   return (
     <div>
-      <Navigation activeTab={activeTab} onLogout={onLogout} userInfo={userInfo} {...rest} />
+      <Navigation activeTab={activeTab} onLogout={onLogout} userInfo={userInfo} history={history} />
       <div>
         <Grid>
           {children}
@@ -20,10 +22,8 @@ AppLayout.propTypes = {
   children: PropTypes.node,
   activeTab: PropTypes.number,
   onLogout: PropTypes.func.isRequired,
-  userInfo: PropTypes.shape({
-    username: PropTypes.string,
-    authToken: PropTypes.string,
-  }),
+  history: ReactRouterPropTypes.history.isRequired,
+  userInfo: UserInfoShape,
 };
 
 AppLayout.defaultProps = {
