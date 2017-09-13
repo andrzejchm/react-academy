@@ -5,12 +5,12 @@ import { ConnectedRouter } from 'react-router-redux';
 import { history, configureStore } from './redux/store';
 import AppLayoutRoute from './components/AppLayoutRoute';
 import LoginContainer from './redux/containers/LoginContainer';
-import RegisterPage from './pages/RegisterPage';
 import UsersPage from './pages/UsersPage';
 import RepairsListPage from './pages/RepairsListPage';
 import RepairDetailsPage from './pages/RepairDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import config from './config/config';
+import RegisterContainer from './redux/containers/RegisterContainer';
 
 export default function App() {
   return (
@@ -37,7 +37,7 @@ export default function App() {
           />
           <Route
             {...config.routes.register}
-            component={RegisterPage}
+            component={RegisterContainer}
           />
           <AppLayoutRoute component={NotFoundPage} />
         </Switch>
