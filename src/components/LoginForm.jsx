@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Button, HelpBlock } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import strings from '../config/strings';
+import { STATUS_ERROR, STATUS_LOADING } from '../redux/actions/rest_api';
+import { UserInfoShape } from '../data/UserInfo';
+import { ApiResponseShape } from '../data/ApiResponse';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -13,14 +16,15 @@ class LoginForm extends Component {
     };
   }
 
+
   onSubmit(event) {
+    event.preventDefault();
     if (this.isFormValid()) {
       this.props.onSubmit({
         username: this.state.username,
         password: this.state.password,
       });
     }
-    event.preventDefault();
   }
 
   passwordChanged(event) {
@@ -31,21 +35,29 @@ class LoginForm extends Component {
     this.setState({ username: event.target.value });
   }
 
-  validation() {
-    if (this.state.password.length < 3) {
+  formValidation() {
+    if (this.state.password.length < 3 && this.state.password.length > 0) {
       return 'error';
     }
     return null;
   }
+
+  postRequestValidation() {
+    if (this.props.userInfo.status === STATUS_ERROR) {
+      return 'error';
+    }
+    return null;
+  }
+
   isFormValid() {
-    return !this.validation();
+    return !this.formValidation();
   }
 
   render() {
     return (
       <form>
         <FormGroup
-          validationState={this.validation()}
+          validationState={this.formValidation() || this.postRequestValidation()}
         >
           <FormControl
             type="text"
@@ -60,8 +72,13 @@ class LoginForm extends Component {
             onChange={event => this.passwordChanged(event)}
             placeholder={strings.password_hint}
           />
+          {this.props.userInfo.status === STATUS_ERROR
+            ? <HelpBlock>{this.props.userInfo.error.message}</HelpBlock>
+            : <span />
+          }
         </FormGroup>
         <Button
+          disabled={this.props.userInfo.status === STATUS_LOADING}
           block
           className="pull-right"
           bsStyle="primary"
@@ -69,12 +86,18 @@ class LoginForm extends Component {
           type="submit"
         >Submit</Button>
       </form>
+
     );
   }
 }
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  userInfo: ApiResponseShape(UserInfoShape).isRequired,
+};
+
+LoginForm.defaultProps = {
+  error: null,
 };
 
 export default LoginForm;

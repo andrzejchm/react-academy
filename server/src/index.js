@@ -13,7 +13,9 @@ const passport = configurePassport();
 // logger
 app.use(morgan('dev'));
 
-app.use(cors());
+app.use(cors({
+  exposedHeaders: ['Access-Token'],
+}));
 app.use(bodyParser.json());
 
 const router = express.Router();

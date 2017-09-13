@@ -3,7 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { login } from '../actions/userInfoActions';
 import LoginPage from '../../pages/LoginPage';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: credentials => dispatch(login(credentials)),
