@@ -11,7 +11,7 @@ import {
 } from '../actions/rest_api';
 import UserInfo from '../../data/UserInfo';
 
-const initialState = {
+export const initialState = {
   userInfo: new UserInfo(null, null, null),
   status: STATUS_NONE,
   error: null,
