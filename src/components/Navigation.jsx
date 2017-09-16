@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Grid, Nav, NavItem } from 'react-bootstrap';
 import strings from '../config/strings';
 import config from '../config/config';
-import { UserInfoShape } from '../data/UserInfo';
+import { UserInfoShape } from '../model/UserInfo';
 
 export default function Navigation({ activeTab, userInfo, onLogout, history }) {
   let loginStatus;
@@ -25,7 +25,7 @@ export default function Navigation({ activeTab, userInfo, onLogout, history }) {
   }
 
   return (
-    <Navbar inverse staticTop>
+    <Navbar inverse staticTop style={{ marginBottom: 0 }}>
       <Grid>
         <Navbar.Header>
           <Navbar.Brand>

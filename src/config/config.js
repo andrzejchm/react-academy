@@ -5,10 +5,10 @@ export default {
       path: '/repairs',
       activeTab: 1,
     },
-    repairDetails: {
-      path: '/repairs/:id',
+    repairDetails: id => ({
+      path: `/repairs/${id}`,
       activeTab: 1,
-    },
+    }),
     users: {
       path: '/users',
       activeTab: 2,

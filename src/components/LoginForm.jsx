@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Button, HelpBlock } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import strings from '../config/strings';
 import { STATUS_ERROR, STATUS_LOADING } from '../redux/actions/rest_api';
-import { UserInfoShape } from '../data/UserInfo';
-import { ApiResponseShape } from '../data/ApiResponse';
+import { UserInfoShape } from '../model/UserInfo';
+import { ApiResponseShape } from '../model/ApiResponse';
 
 class LoginForm extends Component {
   constructor(props) {

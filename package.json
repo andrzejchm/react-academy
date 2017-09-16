@@ -17,6 +17,7 @@
     "es6-promise": "^4.1.1",
     "history": "^4.7.2",
     "prop-types": "^15.5.10",
+    "radium": "^0.19.4",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",

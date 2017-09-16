@@ -14,11 +14,12 @@ export default function App() {
     <Switch>
       <Redirect exact from="/" to={config.routes.repairs.path} />
       <AppLayoutRoute
+        exact
         {...config.routes.repairs}
         component={RepairsListPage}
       />
       <AppLayoutRoute
-        {...config.routes.repairDetails}
+        {...config.routes.repairDetails(':id')}
         component={RepairDetailsPage}
       />
       <AppLayoutRoute

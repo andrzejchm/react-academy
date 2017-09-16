@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Button, HelpBlock } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import strings from '../config/strings';
 import { STATUS_ERROR, STATUS_LOADING } from '../redux/actions/rest_api';
-import { UserInfoShape } from '../data/UserInfo';
+import { UserInfoShape } from '../model/UserInfo';
 
 class RegisterForm extends Component {
   constructor(props) {

@@ -7,8 +7,8 @@ import strings from '../config/strings';
 import config from '../config/config';
 import LoginForm from '../components/LoginForm';
 import { STATUS_SUCCESS } from '../redux/actions/rest_api';
-import { UserInfoShape } from '../data/UserInfo';
-import { ApiResponseShape } from '../data/ApiResponse';
+import { UserInfoShape } from '../model/UserInfo';
+import { ApiResponseShape } from '../model/ApiResponse';
 
 export default class LoginPage extends Component {
   componentWillReceiveProps(nextProps) {
@@ -19,7 +19,7 @@ export default class LoginPage extends Component {
 
   render() {
     return (
-      <Grid className="login-form">
+      <Grid style={{ marginTop: 70 }}>
         <Col xs={12} md={4} mdOffset={4} lg={4} lgOffset={4}>
           <Panel>
             <h2 className="text-center">{strings.login_title}</h2>

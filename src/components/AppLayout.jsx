@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { Grid } from 'react-bootstrap';
 import Navigation from './Navigation';
-import { UserInfoShape } from '../data/UserInfo';
+import { UserInfoShape } from '../model/UserInfo';
 
 export default function AppLayout({ activeTab, onLogout, children, userInfo, history }) {
   return (
