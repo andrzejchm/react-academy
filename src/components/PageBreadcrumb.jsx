@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 export default function PageBreadcrumb({ match }) {
   const names = match.url.split('/').filter(item => item.length);
   const paths = [];
-  names.reduce((prev, cur, i) => paths[i] = `${prev}/${cur}`, '');
+  names.reduce((prev, cur, i) => {
+    paths[i] = `${prev}/${cur}`;
+    return paths[i];
+  }, '');
   const pairs = names.map((name, i) => ({ name, path: paths[i] }));
-  console.log(pairs);
 
   return (
     <div>

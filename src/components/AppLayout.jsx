@@ -25,6 +25,7 @@ AppLayout.propTypes = {
   activeTab: PropTypes.number,
   onLogout: PropTypes.func.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
   userInfo: UserInfoShape,
 };
 

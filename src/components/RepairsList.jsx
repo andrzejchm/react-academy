@@ -11,7 +11,6 @@ import config from '../config/config';
 function RepairsList({ repairsList, history }) {
   function onRepairClick(repair) {
     const repairDetails = config.routes.repairDetails(repair.id).path;
-    console.log(`details: ${repairDetails}`)
     history.push(repairDetails);
   }
 
