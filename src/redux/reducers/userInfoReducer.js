@@ -9,7 +9,7 @@ import {
   STATUS_SUCCESS,
   STATUS_NONE,
 } from '../actions/rest_api';
-import UserInfo from '../../data/UserInfo';
+import UserInfo from '../../model/UserInfo';
 
 export const initialState = {
   userInfo: new UserInfo(null, null, null),

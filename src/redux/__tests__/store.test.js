@@ -1,5 +1,5 @@
 import { configureStore as configureRealStore } from '../store';
-import UserInfo from '../../data/UserInfo';
+import UserInfo from '../../model/UserInfo';
 
 it('UserInfo node initialized correctly', () => {
   const store = configureRealStore();

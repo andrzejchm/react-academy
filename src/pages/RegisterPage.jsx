@@ -7,7 +7,7 @@ import strings from '../config/strings';
 import RegisterForm from '../components/RegisterForm';
 import config from '../config/config';
 import { STATUS_SUCCESS } from '../redux/actions/rest_api';
-import { UserInfoShape } from '../data/UserInfo';
+import { UserInfoShape } from '../model/UserInfo';
 
 class RegisterPage extends Component {
   componentWillReceiveProps(nextProps) {
@@ -18,7 +18,7 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <Grid className="login-form">
+      <Grid style={{ marginTop: 70 }}>
         <Col xs={12} md={4} mdOffset={4} lg={4} lgOffset={4}>
           <Panel>
             <h2 className="text-center">{strings.register_title}</h2>

@@ -4,11 +4,13 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { Grid } from 'react-bootstrap';
 import Navigation from './Navigation';
 import { UserInfoShape } from '../model/UserInfo';
+import PageBreadcrumb from './PageBreadcrumb';
 
-export default function AppLayout({ activeTab, onLogout, children, userInfo, history }) {
+export default function AppLayout({ activeTab, onLogout, children, userInfo, history, match }) {
   return (
     <div>
       <Navigation activeTab={activeTab} onLogout={onLogout} userInfo={userInfo} history={history} />
+      <PageBreadcrumb match={match} />
       <div>
         <Grid>
           {children}
