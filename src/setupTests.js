@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { initialState as userInfoInitialState } from './redux/reducers/userInfoReducer';
 /* eslint-enable */
 const initialState = {
@@ -7,6 +8,6 @@ const initialState = {
 };
 
 export default function configureTestStore() {
-  const mockStore = configureStore();
+  const mockStore = configureStore([thunk]);
   return mockStore(initialState);
 }

@@ -71,7 +71,7 @@ RepairsListPage.propTypes = {
   getRepairsList: PropTypes.func.isRequired,
 };
 RepairsListPage.defaultProps = {
-  repairsList: null,
+  repairsList: {},
 };
 
 export default RepairsListPage;
