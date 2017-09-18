@@ -3,7 +3,6 @@ import users from '../../db/users';
 import wrap from '../responseWrapper';
 import errorCodes from '../../config/errorCodes';
 
-
 export default function register(req, res) {
   if (users.getUser(req.body.username)) {
     res.status(400);

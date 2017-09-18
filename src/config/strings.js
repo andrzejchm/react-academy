@@ -13,5 +13,8 @@ export default {
   login_progress: 'Logging in...',
   no_response: 'there was no response from the server',
   invalid_request: 'invalid request',
+  unauthorized: 'You are not authorized to do this operation',
+  repairs_list_empt_message: 'There are no repairs planned for today',
+  repairs_list_header: 'Today\'s repairs',
 
 };

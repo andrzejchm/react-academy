@@ -1,13 +1,12 @@
 import React from 'react';
 import Radium from 'radium';
 import PropTypes from 'prop-types';
-import { Media } from 'react-bootstrap';
+import { Image, Media } from 'react-bootstrap';
 import globalStyles from '../config/styles';
-
 import { RepairShape } from '../model/Repair';
 
 
-const RepairItem = Radium(({ repair, onClick }) => (
+const RepairItem = Radium(({repair, onClick}) => (
   <div
     onClick={() => onClick()}
     role="button"
@@ -16,15 +15,23 @@ const RepairItem = Radium(({ repair, onClick }) => (
   >
     <Media>
       <Media.Left>
-        <div style={{ backgroundColor: '#1ab190', width: 32, height: 32 }} />
+        <Image style={{width: 32, height: 32}} src="default_avatar.png" circle />
       </Media.Left>
 
       <Media.Body>
-        <Media.Heading>{repair.name}</Media.Heading>
-        <p>smaller text lol</p>
+        <Media.Heading>
+          <b>
+            {repair.name}
+          </b>
+        </Media.Heading>
+        <p>
+          <small>
+            {repair.dateTime.fromNow()}
+          </small>
+        </p>
       </Media.Body>
       <Media.Right>
-        <div style={{ backgroundColor: '#ff0f90', width: 128, height: 64 }} >text here</div>
+        {repair.dateTime.format('HH:mm')}
       </Media.Right>
     </Media>
   </div>

@@ -18,7 +18,7 @@ export default function PageBreadcrumb({ match }) {
         <Col xs={12}>
           <Breadcrumb style={{ marginBottom: 0, backgroundColor: 'transparent' }}>
             <li><Link to="/"><Glyphicon glyph="home" /></Link></li>
-            {pairs.map(item => <li><Link to={item.path}>{item.name}</Link></li>)}
+            {pairs.map(item => <li key={item.path}><Link to={item.path}>{item.name}</Link></li>)}
           </Breadcrumb>
         </Col>
       </Grid>
