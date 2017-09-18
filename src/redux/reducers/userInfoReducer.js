@@ -7,7 +7,7 @@ import {
 import {
   STATUS_LOADING,
   STATUS_SUCCESS,
-  STATUS_NONE,
+  STATUS_NONE, setAuthToken,
 } from '../actions/rest_api';
 import UserInfo from '../../model/UserInfo';
 
@@ -29,10 +29,11 @@ function userLogin(action) {
       newState = {
         ...initialState,
         userInfo: new UserInfo(
-          action.response.result.username,
+          action.payload.username,
           action.headers['access-token'],
-          action.response.result.role),
+          action.payload.role),
       };
+      setAuthToken(newState.userInfo.token);
       break;
     default:
       newState = {
@@ -50,6 +51,7 @@ function userRegister(action) {
 }
 
 function userLogout() {
+  setAuthToken(null);
   return { ...initialState, status: STATUS_NONE };
 }
 

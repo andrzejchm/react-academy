@@ -3,11 +3,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import AppLayoutRoute from './components/AppLayoutRoute';
 import LoginContainer from './redux/containers/LoginContainer';
 import UsersPage from './pages/UsersPage';
-import RepairsListPage from './pages/RepairsListPage';
 import RepairDetailsPage from './pages/RepairDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import config from './config/config';
 import RegisterContainer from './redux/containers/RegisterContainer';
+import RepairsListContainer from './redux/containers/RepairsListContainer';
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
       <AppLayoutRoute
         exact
         {...config.routes.repairs}
-        component={RepairsListPage}
+        component={RepairsListContainer}
       />
       <AppLayoutRoute
         {...config.routes.repairDetails(':id')}

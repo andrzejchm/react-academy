@@ -25,6 +25,7 @@ function getRepairsListReducer(state, action) {
   Object.assign(newState, action);
   newState.payload = newPayload;
   delete newState.type;
+  delete newState.headers;
   return newState;
 }
 

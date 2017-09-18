@@ -10,6 +10,7 @@ export const STATUS_NONE = 'none';
 export const ENDPOINTS = {
   login: '/auth/login',
   register: '/auth/register',
+  repairsList: (dateFrom, dateTo) => `/repairs?from=${dateFrom}&to=${dateTo}`,
 };
 
 export const POST = 'post';
@@ -25,8 +26,6 @@ export function doRequest(method, actionType, path, body = null) {
     dispatch({
       type: actionType,
       status: STATUS_LOADING,
-      response: null,
-      error: null,
     });
 
     instance.request({
@@ -35,24 +34,33 @@ export function doRequest(method, actionType, path, body = null) {
       data: body,
     }).catch((error) => {
       if (error.response) {
-        dispatch({
-          type: actionType,
-          status: STATUS_ERROR,
-          response: error.response.data,
-          error: error.response.data.error,
-        });
+        if (error.response.status === 401) {
+          dispatch({
+            type: actionType,
+            status: STATUS_ERROR,
+            payload: null,
+            error: { message: strings.unauthorized, code: -1 },
+          });
+        } else {
+          dispatch({
+            type: actionType,
+            status: STATUS_ERROR,
+            payload: null,
+            error: error.response.data.error,
+          });
+        }
       } else if (error.request) {
         dispatch({
           type: actionType,
           status: STATUS_ERROR,
-          response: null,
+          payload: null,
           error: { message: strings.no_response, code: -1 },
         });
       } else {
         dispatch({
           type: actionType,
           status: STATUS_ERROR,
-          response: null,
+          payload: null,
           error: { message: strings.invalid_request, code: -1 },
         });
       }
@@ -61,11 +69,15 @@ export function doRequest(method, actionType, path, body = null) {
         dispatch({
           type: actionType,
           status: STATUS_SUCCESS,
-          response: response.data,
+          payload: response.data.result,
           headers: response.headers,
           error: null,
         });
       }
     });
   };
+}
+
+export function setAuthToken(token) {
+  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
