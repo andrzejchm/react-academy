@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 const router = express.Router();
 
 function authBearer() {
-  return passport.authenticate('bearer', {session: false});
+  return passport.authenticate('bearer', { session: false });
 }
 
 router.route('/')
@@ -45,7 +45,9 @@ router.route('/repairs')
 app.use('/api', router);
 
 app.listen(8080, () => {
+  /* eslint-disable no-console */
   console.log('example app listening on 8080');
+  /* eslin-enable */
 });
 
 export default app;
