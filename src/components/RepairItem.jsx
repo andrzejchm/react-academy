@@ -6,7 +6,7 @@ import globalStyles from '../config/styles';
 import { RepairShape } from '../model/Repair';
 
 
-const RepairItem = Radium(({repair, onClick}) => (
+const RepairItem = Radium(({ repair, onClick }) => (
   <div
     onClick={() => onClick()}
     role="button"
@@ -15,7 +15,7 @@ const RepairItem = Radium(({repair, onClick}) => (
   >
     <Media>
       <Media.Left>
-        <Image style={{width: 32, height: 32}} src="default_avatar.png" circle />
+        <Image style={{ width: 32, height: 32 }} src="default_avatar.png" circle />
       </Media.Left>
 
       <Media.Body>
