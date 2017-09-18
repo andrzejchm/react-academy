@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import configurePassport from './auth';
 import login from './api/auth/login';
 import register from './api/auth/register';
+import repairsList from './api/repairs/listRepairs';
 
 const app = express();
 
@@ -20,21 +21,26 @@ app.use(bodyParser.json());
 
 const router = express.Router();
 
-router.get('/',
-  passport.authenticate('bearer', { session: false }),
-  (req, res) => {
-    res.status(200);
-    res.json('ok');
-  });
+function authBearer() {
+  return passport.authenticate('bearer', {session: false});
+}
 
-router.post('/auth/login',
-  (req, res) => login(req, res),
-);
+router.route('/')
+  .get(authBearer(),
+    (req, res) => {
+      res.status(200);
+      res.json('ok');
+    });
 
-router.post('/auth/register',
-  (req, res) => register(req, res),
-);
+router.route('/auth/login')
+  .post((req, res) => login(req, res));
 
+router.route('/auth/register')
+  .post((req, res) => register(req, res));
+
+router.route('/repairs')
+  .get(authBearer(),
+    (req, res) => repairsList(req, res));
 
 app.use('/api', router);
 
