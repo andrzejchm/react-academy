@@ -13,8 +13,13 @@ export default {
     return (user && user.password === credentials.password);
   },
 
-  getUser(username) {
+  getWholeUserRow(username) {
     return users[username];
+  },
+
+  getUserBasic(username) {
+    const user = this.getWholeUserRow(username);
+    return { username: username, role: user.role };
   },
 
   userWithToken(token) {

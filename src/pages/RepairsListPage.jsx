@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
+import Select from 'react-select';
+
 import PropTypes from 'prop-types';
-import { PageHeader } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
+import 'react-select/dist/react-select.css';
 import Spinner from '../components/Spinner';
-import Repair from '../model/Repair';
+import { SortTypes } from '../model/Repair';
 import RepairsList from '../components/RepairsList';
 import { STATUS_LOADING, STATUS_NONE, STATUS_SUCCESS } from '../redux/actions/rest_api';
 import ErrorMessage from '../components/ErrorMessage';
 import InfoMessage from '../components/InfoMessage';
+import FilterButton from '../components/FilterButton';
 import strings from '../config/strings';
-import { ApiResponseShape } from '../model/ApiResponse';
+import { RepairsListShape } from '../usecases/repairsUseCases';
+import FiltersPanel from '../components/FiltersPanel';
 
-class RepairsListPage extends Component {
+
+export default class RepairsListPage extends Component {
   componentWillMount() {
-    this.props.getRepairsList();
+    this.props.getRepairsList(this.props.repairsList.filters);
   }
 
   hasRepairs() {
@@ -31,13 +37,39 @@ class RepairsListPage extends Component {
       || this.props.repairsList.status === STATUS_LOADING;
   }
 
+  sortChanged(sortType) {
+    const filters = this.props.repairsList.filters;
+    filters.sortType = sortType;
+    this.props.getRepairsList(filters);
+  }
   render() {
     if (this.hasRepairs()) {
       return (
         <div>
-          <PageHeader>
-            <small>{strings.repairs_list_header}</small>
-          </PageHeader>
+          <Row>
+            <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
+              <h4>{strings.repairs_list_header}</h4>
+            </Col>
+            <Col xs={9} sm={3}>
+              <Select
+                clearable={false}
+                searchable={false}
+                value={this.props.repairsList.filters.sortType}
+                options={SortTypes}
+                onChange={val => this.sortChanged(val.value)}
+              />
+            </Col>
+            <Col xs={3} sm={1} className="text-right">
+              <FilterButton
+                isPressed={this.props.repairsList.filtersPanelExpanded}
+                onClick={() => this.props.filtersButtonClicked()}
+              />
+            </Col>
+          </Row>
+          <FiltersPanel
+            filters={this.props.repairsList.filters}
+            expanded={this.props.repairsList.filtersPanelExpanded}
+          />
           <RepairsList
             repairsList={this.props.repairsList.payload}
             history={this.props.history}
@@ -67,11 +99,7 @@ class RepairsListPage extends Component {
 
 RepairsListPage.propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
-  repairsList: ApiResponseShape(PropTypes.arrayOf(Repair)),
+  repairsList: RepairsListShape.isRequired,
   getRepairsList: PropTypes.func.isRequired,
+  filtersButtonClicked: PropTypes.func.isRequired,
 };
-RepairsListPage.defaultProps = {
-  repairsList: {},
-};
-
-export default RepairsListPage;

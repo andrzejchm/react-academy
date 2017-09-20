@@ -27,8 +27,11 @@ function RepairsList({ repairsList, history }) {
 }
 
 RepairsList.propTypes = {
-  repairsList: PropTypes.arrayOf(RepairShape).isRequired,
+  repairsList: PropTypes.arrayOf(RepairShape),
   history: ReactRouterPropTypes.history.isRequired,
 };
 
+RepairsList.defaultProps = {
+  repairsList: [],
+};
 export default Radium(RepairsList);

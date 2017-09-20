@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getRepairsListForToday } from '../../usecases/repairsUseCases';
+import { getRepairsListWithFilters, toggleFiltersVisibility } from '../../usecases/repairsUseCases';
 import RepairsListPage from '../../pages/RepairsListPage';
 
 const mapStateToProps = state => ({
@@ -8,7 +8,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRepairsList: () => dispatch(getRepairsListForToday()),
+  getRepairsList: filters => dispatch(getRepairsListWithFilters(filters)),
+  filtersButtonClicked: () => dispatch(toggleFiltersVisibility()),
 });
 
 const RepairsListContainer = withRouter(

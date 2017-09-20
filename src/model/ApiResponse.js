@@ -10,13 +10,13 @@ export default class ApiResponse {
 
 export const ErrorShape = PropTypes.shape({
   message: PropTypes.string,
-  code: PropTypes.string,
+  code: PropTypes.number,
 });
 
-export function ApiResponseShape(payloadShape) {
-  return PropTypes.shape({
+export function ApiResponseShapeInterior(payloadShape) {
+  return {
     payload: payloadShape,
     status: PropTypes.string,
     error: ErrorShape,
-  });
+  };
 }

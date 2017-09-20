@@ -1,17 +1,22 @@
 import React from 'react';
 import Radium from 'radium';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Image, Media } from 'react-bootstrap';
 import globalStyles from '../config/styles';
 import { RepairShape } from '../model/Repair';
 
+require('moment-duration-format');
 
 const RepairItem = Radium(({ repair, onClick }) => (
   <div
     onClick={() => onClick()}
     role="button"
     tabIndex={0}
-    style={globalStyles.clickableListElement}
+    style={repair.isCompleted
+      ? globalStyles.clickableListElementCompleted
+      : globalStyles.clickableListElement
+    }
   >
     <Media>
       <Media.Left>
@@ -25,13 +30,20 @@ const RepairItem = Radium(({ repair, onClick }) => (
           </b>
         </Media.Heading>
         <p>
-          <small>
-            {repair.dateTime.fromNow()}
-          </small>
+          {!repair.isCompleted
+            ? <small>{repair.startDate.fromNow()}</small>
+            : <small style={{ lineHeight: '18px' }}>
+              Completed
+              <Image
+                style={{ width: 14, height: 14, marginLeft: 8 }}
+                src="green_check.png"
+                circle
+              />
+            </small>}
         </p>
       </Media.Body>
       <Media.Right>
-        {repair.dateTime.format('HH:mm')}
+        <small>{repair.startDate.format('HH:mm')}&nbsp;({moment.duration(repair.endDate.diff(repair.startDate)).format()})</small>
       </Media.Right>
     </Media>
   </div>

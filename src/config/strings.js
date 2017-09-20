@@ -16,5 +16,6 @@ export default {
   unauthorized: 'You are not authorized to do this operation',
   repairs_list_empty_message: 'There are no repairs planned for today',
   repairs_list_header: 'Today\'s repairs',
+  filter_button: 'filters',
 
 };

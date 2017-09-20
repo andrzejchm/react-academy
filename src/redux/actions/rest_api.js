@@ -10,7 +10,7 @@ export const STATUS_NONE = 'none';
 export const ENDPOINTS = {
   login: '/auth/login',
   register: '/auth/register',
-  repairsList: (dateFrom, dateTo) => `/repairs?from=${dateFrom}&to=${dateTo}`,
+  repairsList: (dateFrom, dateTo, sortType) => `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}`,
 };
 
 export const POST = 'post';

@@ -11,6 +11,6 @@ export default function listRepairs(req, res) {
     res.status(400);
     res.json(wrap(null, `query parameter 'to' must be a valid unix timestamp (seconds), but was: ${req.query.to}`, errorCodes.invalid_parameter));
   } else {
-    res.json(wrap(repairs.getForDateRange(moment.unix(req.query.from), moment.unix(req.query.to))));
+    res.json(wrap(repairs.getForDateRange(moment.unix(req.query.from), moment.unix(req.query.to), req.query.sortType)));
   }
 }

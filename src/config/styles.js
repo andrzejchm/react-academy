@@ -22,6 +22,17 @@ const styles = {
     padding: globals.dimens.spacingNormal,
     border: '1px solid #ddd',
   },
+
+  clickableListElementCompleted: {
+    backgroundColor: globals.colors.backgroundNormal,
+    ':hover': {
+      backgroundColor: globals.colors.backgroundHover,
+      opacity: 1.0,
+    },
+    marginTop: globals.dimens.spacingNormal,
+    padding: globals.dimens.spacingNormal,
+    opacity: 0.5,
+  },
 };
 
 export default styles;

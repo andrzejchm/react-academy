@@ -8,12 +8,12 @@ import config from '../config/config';
 import LoginForm from '../components/LoginForm';
 import { STATUS_SUCCESS } from '../redux/actions/rest_api';
 import { UserInfoShape } from '../model/UserInfo';
-import { ApiResponseShape } from '../model/ApiResponse';
+import { ApiResponseShapeInterior } from '../model/ApiResponse';
 
 export default class LoginPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.userInfo.status === STATUS_SUCCESS) {
-      nextProps.history.replace('/repairs');
+      nextProps.history.replace(config.routes.repairs.path);
     }
   }
 
@@ -40,6 +40,6 @@ export default class LoginPage extends Component {
 
 LoginPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  userInfo: ApiResponseShape(UserInfoShape).isRequired,
+  userInfo: PropTypes.shape(ApiResponseShapeInterior(UserInfoShape)).isRequired,
   history: ReactRouterPropTypes.history.isRequired,
 };
