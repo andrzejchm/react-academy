@@ -1,5 +1,6 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import {
   doRequest, ENDPOINTS, GET, STATUS_NONE,
 } from '../redux/actions/rest_api';
@@ -41,10 +42,16 @@ function getRepairsListReducer(state, action) {
 
 function fetchRepairsListAction(state) {
   return doRequest(GET, ACTION_GET_REPAIRS_LIST, ENDPOINTS.repairsList(
-    state.appliedFilters.startDate.unix(),
-    state.appliedFilters.endDate.unix() + 1,
+    moment(state.appliedFilters.startDate)
+      .add(state.appliedFilters.startTime, 'hours').unix(),
+    moment(state.appliedFilters.endDate)
+      .add(state.appliedFilters.endTime - 24, 'hours').unix() + 2,
+    // end of day is 23:59:59:999 and we want to include dates that end with 24:00:00:000
+    // so we add +2 since endDate is exclusive
     state.sortType,
     state.appliedFilters.assignedUser,
+    state.appliedFilters.showCompleted,
+    state.appliedFilters.showIncomplete,
   ));
 }
 
@@ -83,20 +90,20 @@ export default function reducer(state = initialState, action = {}) {
 export function sortTypeChanged(sortType) {
   return (dispatch, getState) => {
     dispatch({ type: ACTION_REPAIRS_LIST_SORT_TYPE_CHANGED, payload: sortType });
-    fetchRepairsListAction(getState().repairsList)(dispatch);
+    fetchRepairsListAction(getState().repairsList)(dispatch, getState);
   };
 }
 
 export function filtersApplied(filters) {
   return (dispatch, getState) => {
     dispatch({ type: ACTION_REPAIRS_LIST_FILTERS_APPLIED, payload: filters });
-    fetchRepairsListAction(getState().repairsList)(dispatch);
+    fetchRepairsListAction(getState().repairsList)(dispatch, getState);
   };
 }
 
 export function triggerRepairsListFetch() {
   return (dispatch, getState) => {
-    fetchRepairsListAction(getState().repairsList)(dispatch);
+    fetchRepairsListAction(getState().repairsList)(dispatch, getState);
   };
 }
 

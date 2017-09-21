@@ -10,8 +10,9 @@ export const STATUS_NONE = '#none';
 export const ENDPOINTS = {
   login: '/auth/login',
   register: '/auth/register',
-  repairsList: (dateFrom, dateTo, sortType, assignedUser) =>
-    `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}&assignedUser=${assignedUser}`,
+  repairsList: (dateFrom, dateTo, sortType, assignedUser, showCompleted, showIncomplete) =>
+    `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}&assignedUser=${assignedUser}` +
+    `&showIncomplete=${showIncomplete}&showCompleted=${showCompleted}`,
 };
 
 export const POST = 'post';
@@ -22,8 +23,15 @@ const instance = axios.create({
   timeout: 30000,
 });
 
+function getAuthHeaders(store) {
+  if (store.auth && store.auth.userInfo.token) {
+    return { Authorization: `Bearer ${store.auth.userInfo.token}` };
+  }
+  return {};
+}
+
 export function doRequest(method, actionType, path, body = null) {
-  return (dispatch) => {
+  return (dispatch, getStore) => {
     dispatch({
       type: actionType + STATUS_LOADING,
       status: STATUS_LOADING,
@@ -33,6 +41,7 @@ export function doRequest(method, actionType, path, body = null) {
       url: path,
       method,
       data: body,
+      headers: getAuthHeaders(getStore()),
     }).catch((error) => {
       if (error.response) {
         if (error.response.status === 401) {
@@ -77,8 +86,4 @@ export function doRequest(method, actionType, path, body = null) {
       }
     });
   };
-}
-
-export function setAuthToken(token) {
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 }

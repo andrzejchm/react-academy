@@ -5,64 +5,64 @@ export const repairsList = [];
 repairsList.push({
   id: 1,
   name: 'abc',
-  startDate: moment('2017-09-20T19:16:21+02:00'),
-  endDate: moment('2017-09-20T20:16:21+02:00'),
+  startDate: moment('2017-09-20T19:16:21Z'),
+  endDate: moment('2017-09-20T20:16:21Z'),
   isCompleted: true,
   assignedUser: users.getUserBasic('user'),
 });
 repairsList.push({
   id: 2,
   name: 'abc',
-  startDate: moment('2017-09-20T18:15:21+02:00'),
-  endDate: moment('2017-09-20T19:15:21+02:00'),
+  startDate: moment('2017-09-20T18:15:21Z'),
+  endDate: moment('2017-09-20T19:15:21Z'),
   isCompleted: true,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
 repairsList.push({
   id: 3,
   name: 'abc',
-  startDate: moment('2017-09-20T17:14:11+02:00'),
-  endDate: moment('2017-09-20T18:14:11+02:00'),
+  startDate: moment('2017-09-20T17:14:11Z'),
+  endDate: moment('2017-09-20T18:14:11Z'),
   isCompleted: false,
   assignedUser: users.getUserBasic('user'),
 });
 repairsList.push({
   id: 4,
   name: 'abc',
-  startDate: moment('2017-09-20T16:13:01+02:00'),
-  endDate: moment('2017-09-20T17:13:01+02:00'),
+  startDate: moment('2017-09-20T16:13:01Z'),
+  endDate: moment('2017-09-20T17:13:01Z'),
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
 repairsList.push({
   id: 5,
   name: 'abc',
-  startDate: moment('2017-09-20T15:11:21+02:00'),
-  endDate: moment('2017-09-20T16:11:21+02:00'),
+  startDate: moment('2017-09-20T15:11:21Z'),
+  endDate: moment('2017-09-20T16:11:21Z'),
   isCompleted: true,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
 repairsList.push({
   id: 6,
   name: 'abc',
-  startDate: moment('2017-09-20T14:10:21+02:00'),
-  endDate: moment('2017-09-20T15:10:21+02:00'),
+  startDate: moment('2017-09-20T14:10:21Z'),
+  endDate: moment('2017-09-20T15:10:21Z'),
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
 repairsList.push({
   id: 7,
   name: 'abc',
-  startDate: moment('2017-09-20T13:09:21+02:00'),
-  endDate: moment('2017-09-20T14:09:21+02:00'),
+  startDate: moment('2017-09-20T13:09:21Z'),
+  endDate: moment('2017-09-20T14:09:21Z'),
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
 repairsList.push({
   id: 8,
   name: 'abc',
-  startDate: moment('2017-09-20T12:08:21+02:00'),
-  endDate: moment('2017-09-14T13:08:21+02:00'),
+  startDate: moment('2017-09-20T12:08:21Z'),
+  endDate: moment('2017-09-14T13:08:21Z'),
   isCompleted: true,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
@@ -104,13 +104,22 @@ function usernameMatches(value, username) {
   return true;
 }
 
+function completeStatusMatches(value, showIncomplete, showCompleted) {
+  const result = (showCompleted && showIncomplete) ||
+    (showCompleted && value.isCompleted) ||
+    (showIncomplete && !value.isCompleted);
+  return result;
+}
+
 export default {
-  getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC', username = '') => {
+  getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC',
+    username = '', showIncomplete = true, showCompleted = true) => {
     const fromInclusive = moment(momentDateFromInclusive).subtract(1, 'ms');
     const result = [];
     repairsList.forEach((value) => {
-      if (isInDateRange(value, fromInclusive, momentDateToExclusive)
-        && usernameMatches(value, username)) {
+      if (isInDateRange(value, fromInclusive, momentDateToExclusive) &&
+        usernameMatches(value, username) &&
+        completeStatusMatches(value, showIncomplete, showCompleted)) {
         result.push(value);
       }
     });

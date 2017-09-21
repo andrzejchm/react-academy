@@ -24,6 +24,5 @@ export default {
   filter_label_choose_status: 'Status',
   filter_completed_show_all: 'Show All',
   filter_completed_only: 'Completed only',
-  filter_incomplete_only: 'Incompleted only',
-
+  filter_incomplete_only: 'Incomplete only',
 };

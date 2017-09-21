@@ -18,6 +18,8 @@ export default function listRepairs(req, res) {
           moment.unix(req.query.to),
           req.query.sortType,
           req.query.assignedUser,
+          req.query.showIncomplete === 'true',
+          req.query.showCompleted === 'true',
         )));
   }
 }

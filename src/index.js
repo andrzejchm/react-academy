@@ -6,9 +6,11 @@ import './index.css';
 import BrowserApp from './BrowserApp';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(
-  React.createElement(BrowserApp),
-  document.getElementById('root'),
-);
+BrowserApp((Component) => {
+  ReactDOM.render(
+    React.createElement(Component),
+    document.getElementById('root'),
+  );
+});
 
 registerServiceWorker();

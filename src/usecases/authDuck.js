@@ -1,5 +1,5 @@
 import {
-  STATUS_LOADING, STATUS_SUCCESS, STATUS_NONE, POST, ENDPOINTS, setAuthToken, doRequest,
+  STATUS_LOADING, STATUS_SUCCESS, STATUS_NONE, POST, ENDPOINTS, doRequest,
 } from '../redux/actions/rest_api';
 import UserInfo from '../model/UserInfo';
 
@@ -29,7 +29,6 @@ function userLogin(action) {
           action.headers['access-token'],
           action.payload.role) },
       };
-      setAuthToken(newState.userInfo.token);
       break;
     default:
       newState = {
@@ -47,7 +46,6 @@ function userRegister(action) {
 }
 
 function userLogout() {
-  setAuthToken(null);
   return { ...initialState, status: STATUS_NONE };
 }
 

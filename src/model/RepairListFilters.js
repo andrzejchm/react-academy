@@ -4,18 +4,26 @@ import moment from 'moment';
 
 
 function getTodayStart() {
-  return moment().startOf('day');
+  return moment().utcOffset(0).startOf('day');
 }
 function getTodayEnd() {
-  return moment().endOf('day');
+  return moment().utcOffset(0).endOf('day');
+}
+
+export function localToUtcHour(value) {
+  return value - (moment().utcOffset() / 60);
+}
+
+export function utcToLocalHour(value) {
+  return value + (moment().utcOffset() / 60);
 }
 
 export default class RepairListFilters {
   constructor(
     startDate = getTodayStart(),
     endDate = getTodayEnd(),
-    startTime = 0,
-    endTime = 24,
+    startTime = localToUtcHour(0),
+    endTime = localToUtcHour(24),
     showCompleted = true,
     showIncomplete = true,
     assignedUser = '',
@@ -29,13 +37,14 @@ export default class RepairListFilters {
     this.assignedUser = assignedUser;
   }
 }
+
 export function isFiltering(filters) {
   return filters.startDate !== getTodayStart() ||
     filters.endDate !== getTodayEnd() ||
     !filters.showCompleted ||
     !filters.showIncomplete ||
-    filters.startTime !== 0 ||
-    filters.endTime !== 24 ||
+    filters.startTime !== localToUtcHour(0) ||
+    filters.endTime !== localToUtcHour(24) ||
     filters.assignedUser;
 }
 

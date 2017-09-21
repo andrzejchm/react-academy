@@ -39,8 +39,7 @@ router.route('/auth/register')
   .post((req, res) => register(req, res));
 
 router.route('/repairs')
-  // .get(authBearer(),
-  .get(
+  .get(authBearer(),
     (req, res) => repairsList(req, res));
 
 app.use('/api', router);
