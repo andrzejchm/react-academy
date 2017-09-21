@@ -8,7 +8,7 @@ repairs.push({
   startDate: moment('2017-09-20T19:16:21+02:00'),
   endDate: moment('2017-09-20T20:16:21+02:00'),
   isCompleted: true,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  assignedUser: users.getUserBasic('user'),
 });
 repairs.push({
   id: 2,
@@ -24,7 +24,7 @@ repairs.push({
   startDate: moment('2017-09-20T17:14:11+02:00'),
   endDate: moment('2017-09-20T18:14:11+02:00'),
   isCompleted: false,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  assignedUser: users.getUserBasic('user'),
 });
 repairs.push({
   id: 4,
@@ -89,13 +89,28 @@ function sortDateDescending(result) {
   });
 }
 
+function isInDateRange(value, fromInclusive, momentDateToExclusive) {
+  return value.startDate.isBetween(fromInclusive, momentDateToExclusive) &&
+    value.endDate.isBetween(fromInclusive, momentDateToExclusive);
+}
+
+function usernameMatches(value, username) {
+  if (username) {
+    if (value.assignedUser) {
+      return value.assignedUser.username.toLowerCase().indexOf(username.toLowerCase()) !== -1;
+    }
+    return false;
+  }
+  return true;
+}
+
 export default {
-  getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC') => {
+  getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC', username = '') => {
     const fromInclusive = moment(momentDateFromInclusive).subtract(1, 'ms');
     const result = [];
     repairs.forEach((value) => {
-      if (value.startDate.isBetween(fromInclusive, momentDateToExclusive) &&
-        value.endDate.isBetween(fromInclusive, momentDateToExclusive)) {
+      if (isInDateRange(value, fromInclusive, momentDateToExclusive)
+        && usernameMatches(value, username)) {
         result.push(value);
       }
     });

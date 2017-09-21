@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getRepairsListWithFilters, toggleFiltersVisibility } from '../../usecases/repairsUseCases';
+import { filtersApplied, sortTypeChanged, triggerRepairsListFetch } from '../../usecases/repairsListDuck';
 import RepairsListPage from '../../pages/RepairsListPage';
+import { toggleFiltersVisibility, filterPanelValuesChanged } from '../../usecases/repairsFiltersPanelDuck';
 
 const mapStateToProps = state => ({
   repairsList: state.repairsList,
+  filterPanel: state.filterPanel,
 });
 
 const mapDispatchToProps = dispatch => ({
-  getRepairsList: filters => dispatch(getRepairsListWithFilters(filters)),
+  triggerRepairsListFetch: () => dispatch(triggerRepairsListFetch()),
+  filtersApplied: filters => dispatch(filtersApplied(filters)),
   filtersButtonClicked: () => dispatch(toggleFiltersVisibility()),
+  sortTypeChanged: sortType => dispatch(sortTypeChanged(sortType)),
+  onFilterPanelValuesChanged: filterPanelValues =>
+    dispatch(filterPanelValuesChanged(filterPanelValues)),
 });
 
 const RepairsListContainer = withRouter(

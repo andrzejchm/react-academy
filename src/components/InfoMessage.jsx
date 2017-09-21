@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Grid, Panel } from 'react-bootstrap';
 
-export default function ErrorMessage({ info }) {
+const propTypes = {
+  info: PropTypes.string,
+};
+
+const defaultProps = {
+  info: null,
+};
+
+export default function InfoMessage({ info }) {
   if (info && info.length) {
     return (
       <Grid>
@@ -17,10 +25,6 @@ export default function ErrorMessage({ info }) {
   return <span />;
 }
 
-ErrorMessage.propTypes = {
-  info: PropTypes.string,
-};
+InfoMessage.propTypes = propTypes;
 
-ErrorMessage.defaultProps = {
-  info: null,
-};
+InfoMessage.defaultProps = defaultProps;

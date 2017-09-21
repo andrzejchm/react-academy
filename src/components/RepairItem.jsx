@@ -29,9 +29,10 @@ const RepairItem = Radium(({ repair, onClick }) => (
             {repair.name}
           </b>
         </Media.Heading>
+        <small>assigned to: {repair.assignedUser.username}</small>
         <p>
           {!repair.isCompleted
-            ? <small>{repair.startDate.fromNow()}</small>
+            ? <span />
             : <small style={{ lineHeight: '18px' }}>
               Completed
               <Image

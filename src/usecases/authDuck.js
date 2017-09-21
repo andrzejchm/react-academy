@@ -1,15 +1,11 @@
 import {
-  USER_LOGIN,
-  USER_LOGOUT,
-  USER_REGISTER,
-} from '../actions/userInfoActions';
+  STATUS_LOADING, STATUS_SUCCESS, STATUS_NONE, POST, ENDPOINTS, setAuthToken, doRequest,
+} from '../redux/actions/rest_api';
+import UserInfo from '../model/UserInfo';
 
-import {
-  STATUS_LOADING,
-  STATUS_SUCCESS,
-  STATUS_NONE, setAuthToken,
-} from '../actions/rest_api';
-import UserInfo from '../../model/UserInfo';
+export const ACTION_USER_LOGIN = 'AUTH/LOGIN';
+export const ACTION_USER_LOGOUT = 'AUTH/LOGOUT';
+export const ACTION_USER_REGISTER = 'AUTH/REGISTER';
 
 export const initialState = {
   userInfo: new UserInfo(null, null, null),
@@ -55,15 +51,38 @@ function userLogout() {
   return { ...initialState, status: STATUS_NONE };
 }
 
-export default function userInfo(state = initialState, action) {
-  switch (action.type) {
-    case USER_LOGOUT:
+export default function reducer(state = initialState, action) {
+  switch (action.type.split('#')[0]) {
+    case ACTION_USER_LOGOUT:
       return userLogout();
-    case USER_LOGIN:
+    case ACTION_USER_LOGIN:
       return userLogin(action);
-    case USER_REGISTER:
+    case ACTION_USER_REGISTER:
       return userRegister(action);
     default:
       return state;
   }
 }
+
+export function logout() {
+  return {
+    type: ACTION_USER_LOGOUT,
+  };
+}
+
+export function login(credentials) {
+  return doRequest(POST, ACTION_USER_LOGIN, ENDPOINTS.login,
+    {
+      username: credentials.username,
+      password: credentials.password,
+    });
+}
+
+export function register(credentials) {
+  return doRequest(POST, ACTION_USER_REGISTER, ENDPOINTS.register,
+    {
+      username: credentials.username,
+      password: credentials.password,
+    });
+}
+

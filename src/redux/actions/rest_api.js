@@ -2,15 +2,16 @@ import axios from 'axios';
 import config from '../../config/config';
 import strings from '../../config/strings';
 
-export const STATUS_LOADING = 'loading';
-export const STATUS_ERROR = 'error';
-export const STATUS_SUCCESS = 'success';
-export const STATUS_NONE = 'none';
+export const STATUS_LOADING = '#loading';
+export const STATUS_ERROR = '#error';
+export const STATUS_SUCCESS = '#success';
+export const STATUS_NONE = '#none';
 
 export const ENDPOINTS = {
   login: '/auth/login',
   register: '/auth/register',
-  repairsList: (dateFrom, dateTo, sortType) => `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}`,
+  repairsList: (dateFrom, dateTo, sortType, assignedUser) =>
+    `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}&assignedUser=${assignedUser}`,
 };
 
 export const POST = 'post';
@@ -24,7 +25,7 @@ const instance = axios.create({
 export function doRequest(method, actionType, path, body = null) {
   return (dispatch) => {
     dispatch({
-      type: actionType,
+      type: actionType + STATUS_LOADING,
       status: STATUS_LOADING,
     });
 
@@ -36,14 +37,14 @@ export function doRequest(method, actionType, path, body = null) {
       if (error.response) {
         if (error.response.status === 401) {
           dispatch({
-            type: actionType,
+            type: actionType + STATUS_ERROR,
             status: STATUS_ERROR,
             payload: null,
             error: { message: strings.unauthorized, code: -1 },
           });
         } else {
           dispatch({
-            type: actionType,
+            type: actionType + STATUS_ERROR,
             status: STATUS_ERROR,
             payload: null,
             error: error.response.data.error,
@@ -51,14 +52,14 @@ export function doRequest(method, actionType, path, body = null) {
         }
       } else if (error.request) {
         dispatch({
-          type: actionType,
+          type: actionType + STATUS_ERROR,
           status: STATUS_ERROR,
           payload: null,
           error: { message: strings.no_response, code: -1 },
         });
       } else {
         dispatch({
-          type: actionType,
+          type: actionType + STATUS_ERROR,
           status: STATUS_ERROR,
           payload: null,
           error: { message: strings.invalid_request, code: -1 },
@@ -67,7 +68,7 @@ export function doRequest(method, actionType, path, body = null) {
     }).then((response) => {
       if (response) {
         dispatch({
-          type: actionType,
+          type: actionType + STATUS_SUCCESS,
           status: STATUS_SUCCESS,
           payload: response.data.result,
           headers: response.headers,

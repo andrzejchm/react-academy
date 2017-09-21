@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { register } from '../actions/userInfoActions';
+import { register } from '../../usecases/authDuck';
 import RegisterPage from '../../pages/RegisterPage';
 
 const mapStateToProps = state => ({

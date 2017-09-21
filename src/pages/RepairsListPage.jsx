@@ -1,105 +1,68 @@
 import React, { Component } from 'react';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import Select from 'react-select';
 
 import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 import 'react-select/dist/react-select.css';
-import Spinner from '../components/Spinner';
-import { SortTypes } from '../model/Repair';
 import RepairsList from '../components/RepairsList';
-import { STATUS_LOADING, STATUS_NONE, STATUS_SUCCESS } from '../redux/actions/rest_api';
-import ErrorMessage from '../components/ErrorMessage';
-import InfoMessage from '../components/InfoMessage';
-import FilterButton from '../components/FilterButton';
-import strings from '../config/strings';
-import { RepairsListShape } from '../usecases/repairsUseCases';
+import FiltersPanelToggleButton from '../components/FilterButton';
+import { RepairsListShape } from '../usecases/repairsListDuck';
+import { FilterPanelShape } from '../usecases/repairsFiltersPanelDuck';
 import FiltersPanel from '../components/FiltersPanel';
+import FiltersSortTypeSelector from '../components/FiltersSortTypeSelector';
 
+const propTypes = {
+  history: ReactRouterPropTypes.history.isRequired,
+  repairsList: RepairsListShape.isRequired,
+  filterPanel: FilterPanelShape.isRequired,
+  triggerRepairsListFetch: PropTypes.func.isRequired,
+  filtersApplied: PropTypes.func.isRequired,
+  sortTypeChanged: PropTypes.func.isRequired,
+  filtersButtonClicked: PropTypes.func.isRequired,
+  onFilterPanelValuesChanged: PropTypes.func.isRequired,
+};
 
 export default class RepairsListPage extends Component {
   componentWillMount() {
-    this.props.getRepairsList(this.props.repairsList.filters);
+    this.props.triggerRepairsListFetch(this.props.repairsList.appliedFilters);
   }
 
-  hasRepairs() {
-    return this.props.repairsList.status === STATUS_SUCCESS
-      && this.props.repairsList.payload.length;
-  }
-
-  repairsListIsEmpty() {
-    return this.props.repairsList.status === STATUS_SUCCESS
-      && !this.props.repairsList.payload.length;
-  }
-
-  shouldShowLoading() {
-    return this.props.repairsList.status === STATUS_NONE
-      || this.props.repairsList.status === STATUS_LOADING;
-  }
-
-  sortChanged(sortType) {
-    const filters = this.props.repairsList.filters;
-    filters.sortType = sortType;
-    this.props.getRepairsList(filters);
-  }
   render() {
-    if (this.hasRepairs()) {
-      return (
-        <div>
-          <Row>
-            <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
-              <h4>{strings.repairs_list_header}</h4>
-            </Col>
-            <Col xs={9} sm={3}>
-              <Select
-                clearable={false}
-                searchable={false}
-                value={this.props.repairsList.filters.sortType}
-                options={SortTypes}
-                onChange={val => this.sortChanged(val.value)}
-              />
-            </Col>
-            <Col xs={3} sm={1} className="text-right">
-              <FilterButton
-                isPressed={this.props.repairsList.filtersPanelExpanded}
-                onClick={() => this.props.filtersButtonClicked()}
-              />
-            </Col>
-          </Row>
-          <FiltersPanel
-            filters={this.props.repairsList.filters}
-            expanded={this.props.repairsList.filtersPanelExpanded}
-          />
-          <RepairsList
-            repairsList={this.props.repairsList.payload}
-            history={this.props.history}
-          />
-        </div>
-      );
-    } else if (this.repairsListIsEmpty()) {
-      return (
-        <InfoMessage
-          info={strings.repairs_list_empty_message}
-        />
-      );
-    } else if (this.shouldShowLoading()) {
-      return (
-        <Spinner
-          name="line-scale"
-        />
-      );
-    }
+    const { filterPanel, repairsList, history, onFilterPanelValuesChanged,
+      filtersApplied } = this.props;
     return (
-      <ErrorMessage
-        error={this.props.repairsList.error}
-      />
+      <div>
+        <Row>
+          <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
+            <h4>{repairsList.appliedFilters.startDate.format('D MMM')}</h4>
+          </Col>
+          <Col xs={9} sm={3}>
+            <FiltersSortTypeSelector
+              sortType={repairsList.sortType}
+              onSortTypeChanged={sortType => this.props.sortTypeChanged(sortType)}
+            />
+          </Col>
+          <Col xs={3} sm={1} className="text-right">
+            <FiltersPanelToggleButton
+              isPressed={filterPanel.expanded}
+              onClick={() => this.props.filtersButtonClicked()}
+            />
+          </Col>
+        </Row>
+        <FiltersPanel
+          appliedFilters={repairsList.appliedFilters}
+          filterPanelValues={filterPanel.filters}
+          onFilterPanelValuesChanged={filters => onFilterPanelValuesChanged(filters)}
+          onFiltersApplied={filters => filtersApplied(filters)}
+          expanded={filterPanel.expanded}
+        />
+        <RepairsList
+          repairsList={repairsList}
+          history={history}
+        />
+      </div>
     );
   }
 }
 
-RepairsListPage.propTypes = {
-  history: ReactRouterPropTypes.history.isRequired,
-  repairsList: RepairsListShape.isRequired,
-  getRepairsList: PropTypes.func.isRequired,
-  filtersButtonClicked: PropTypes.func.isRequired,
-};
+RepairsListPage.propTypes = propTypes;

@@ -1,5 +1,6 @@
 const users = {
   andrzejchm: { password: 'abc', token: 'def', role: 'manager' },
+  user: { password: 'user', token: 'user', role: 'user' },
 };
 
 const guid = () => {

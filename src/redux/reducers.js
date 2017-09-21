@@ -1,7 +1,9 @@
-import userInfo from './reducers/userInfoReducer';
-import repairsList from '../usecases/repairsUseCases';
+import auth from '../usecases/authDuck';
+import repairsList from '../usecases/repairsListDuck';
+import repairsFiltersPanel from '../usecases/repairsFiltersPanelDuck';
 
 export default {
-  userInfo,
+  userInfo: auth,
   repairsList,
+  filterPanel: repairsFiltersPanel,
 };

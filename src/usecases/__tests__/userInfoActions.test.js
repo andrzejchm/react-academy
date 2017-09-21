@@ -1,4 +1,4 @@
-import * as actions from './userInfoActions';
+import * as actions from '../authDuck';
 
 
 it('should create an action to add a todo', () => {
