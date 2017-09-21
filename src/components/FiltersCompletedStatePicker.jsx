@@ -48,6 +48,7 @@ export default function FiltersTimePicker({
     } else if (!showCompleted && showIncomplete) {
       return VAL_INCOMPLETE_ONLY;
     }
+    return null;
   }
 
   return (

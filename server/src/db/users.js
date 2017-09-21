@@ -20,7 +20,7 @@ export default {
 
   getUserBasic(username) {
     const user = this.getWholeUserRow(username);
-    return { username: username, role: user.role };
+    return { username, role: user.role };
   },
 
   userWithToken(token) {

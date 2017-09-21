@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Radium from 'radium';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { ListGroup } from 'react-bootstrap';
