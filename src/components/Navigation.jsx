@@ -6,6 +6,7 @@ import { Navbar, Grid, Nav, NavItem } from 'react-bootstrap';
 import strings from '../config/strings';
 import config from '../config/config';
 import { UserInfoShape } from '../model/UserInfo';
+import { isAtLeastManager } from '../permissions';
 
 export default function Navigation({ activeTab, userInfo, onLogout, history }) {
   let loginStatus;
@@ -39,10 +40,12 @@ export default function Navigation({ activeTab, userInfo, onLogout, history }) {
               eventKey={1}
               onClick={() => history.push(config.routes.repairs.path)}
             >Repairs</NavItem>
+            {isAtLeastManager(userInfo) &&
             <NavItem
               eventKey={2}
               onClick={() => history.push(config.routes.users.path)}
             >Users</NavItem>
+            }
           </Nav>
           {loginStatus}
         </Navbar.Collapse>

@@ -8,21 +8,28 @@ import NotFoundPage from './pages/NotFoundPage';
 import config from './config/config';
 import RegisterContainer from './redux/containers/RegisterContainer';
 import RepairsListContainer from './redux/containers/RepairsListContainer';
+import { isAtLeastManager, isLoggedIn } from './permissions';
 
 export default function App() {
   return (
     <Switch>
       <Redirect exact from="/" to={config.routes.repairs.path} />
       <AppLayoutRoute
+        isAccessGranted={isLoggedIn}
+        redirectOnAccessDenied={config.routes.login.path}
         exact
         {...config.routes.repairs}
         component={RepairsListContainer}
       />
       <AppLayoutRoute
+        isAccessGranted={isLoggedIn}
+        redirectOnAccessDenied={config.routes.login.path}
         {...config.routes.repairDetails(':id')}
         component={RepairDetailsPage}
       />
       <AppLayoutRoute
+        isAccessGranted={isAtLeastManager}
+        redirectOnAccessDenied={config.routes.login.path}
         {...config.routes.users}
         activeTab={2}
         component={UsersPage}
@@ -35,7 +42,10 @@ export default function App() {
         {...config.routes.register}
         component={RegisterContainer}
       />
-      <AppLayoutRoute component={NotFoundPage} />
+      <Route
+        isAccessGranted={() => true}
+        component={NotFoundPage}
+      />
     </Switch>
   );
 }

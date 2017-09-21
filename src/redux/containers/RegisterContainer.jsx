@@ -4,7 +4,7 @@ import { register } from '../../usecases/authDuck';
 import RegisterPage from '../../pages/RegisterPage';
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo,
+  userInfo: state.auth,
 });
 
 const mapDispatchToProps = dispatch => ({
