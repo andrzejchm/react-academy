@@ -6,7 +6,7 @@ import { toggleFiltersVisibility, filterPanelValuesChanged } from '../../usecase
 
 const mapStateToProps = state => ({
   repairsList: state.repairsList,
-  filterPanel: state.filterPanel,
+  filterPanel: state.repairsFiltersPanel,
 });
 
 const mapDispatchToProps = dispatch => ({

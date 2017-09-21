@@ -3,9 +3,9 @@ import UserInfo from '../../model/UserInfo';
 
 it('UserInfo node initialized correctly', () => {
   const store = configureRealStore();
-  expect(store.getState().userInfo).toEqual({
+  expect(store.getState().auth).toEqual({
     error: null,
-    status: 'none',
+    status: '#none',
     userInfo: new UserInfo(null, null, null),
   });
 });

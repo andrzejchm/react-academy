@@ -21,58 +21,56 @@ const defaultProps = {
   repairsList: [],
 };
 
-class RepairsList extends Component {
-  onRepairClick(repair) {
+function RepairsList({ repairsList, history }) {
+  function onRepairClick(repair) {
     const repairDetails = config.routes.repairDetails(repair.id).path;
-    this.props.history.push(repairDetails);
+    history.push(repairDetails);
   }
 
-  hasRepairs() {
-    return this.props.repairsList.status === STATUS_SUCCESS
-      && this.props.repairsList.payload.length;
+  function hasRepairs() {
+    return repairsList.status === STATUS_SUCCESS
+      && repairsList.payload.length;
   }
 
-  repairsListIsEmpty() {
-    return this.props.repairsList.status === STATUS_SUCCESS
-      && !this.props.repairsList.payload.length;
+  function repairsListIsEmpty() {
+    return repairsList.status === STATUS_SUCCESS
+      && !repairsList.payload.length;
   }
 
-  shouldShowLoading() {
-    return this.props.repairsList.status === STATUS_NONE
-      || this.props.repairsList.status === STATUS_LOADING;
+  function shouldShowLoading() {
+    return repairsList.status === STATUS_NONE
+      || repairsList.status === STATUS_LOADING;
   }
 
-  render() {
-    if (this.hasRepairs()) {
-      return (
-        <ListGroup>
-          {this.props.repairsList.payload.map(repair =>
-            (<RepairItem
-              key={repair.id}
-              repair={repair}
-              onClick={() => this.onRepairClick(repair)}
-            />))}
-        </ListGroup>
-      );
-    } else if (this.repairsListIsEmpty()) {
-      return (
-        <InfoMessage
-          info={strings.repairs_list_empty_message}
-        />
-      );
-    } else if (this.shouldShowLoading()) {
-      return (
-        <Spinner
-          name="line-scale"
-        />
-      );
-    }
+  if (hasRepairs()) {
     return (
-      <ErrorMessage
-        error={this.props.repairsList.error}
+      <ListGroup>
+        {repairsList.payload.map(repair =>
+          (<RepairItem
+            key={repair.id}
+            repair={repair}
+            onClick={() => onRepairClick(repair)}
+          />))}
+      </ListGroup>
+    );
+  } else if (repairsListIsEmpty()) {
+    return (
+      <InfoMessage
+        info={strings.repairs_list_empty_message}
+      />
+    );
+  } else if (shouldShowLoading()) {
+    return (
+      <Spinner
+        name="line-scale"
       />
     );
   }
+  return (
+    <ErrorMessage
+      error={repairsList.error}
+    />
+  );
 }
 
 RepairsList.propTypes = propTypes;

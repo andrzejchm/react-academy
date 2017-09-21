@@ -104,4 +104,3 @@ export const RepairsListShape = PropTypes.shape({
   ...ApiResponseShapeInterior(PropTypes.arrayOf(RepairShape)),
   appliedFilters: RepairListFiltersShape,
 });
-

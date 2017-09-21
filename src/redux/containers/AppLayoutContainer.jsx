@@ -4,7 +4,7 @@ import { logout } from '../../usecases/authDuck';
 import AppLayout from '../../components/AppLayout';
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo.userInfo,
+  userInfo: state.auth.userInfo,
 });
 
 const mapDispatchToProps = dispatch => ({

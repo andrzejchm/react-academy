@@ -3,7 +3,7 @@ import repairsList from '../usecases/repairsListDuck';
 import repairsFiltersPanel from '../usecases/repairsFiltersPanelDuck';
 
 export default {
-  userInfo: auth,
+  auth,
   repairsList,
-  filterPanel: repairsFiltersPanel,
+  repairsFiltersPanel,
 };

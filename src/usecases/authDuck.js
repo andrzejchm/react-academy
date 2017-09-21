@@ -24,10 +24,10 @@ function userLogin(action) {
     case STATUS_SUCCESS:
       newState = {
         ...initialState,
-        userInfo: new UserInfo(
+        userInfo: { ...new UserInfo(
           action.payload.username,
           action.headers['access-token'],
-          action.payload.role),
+          action.payload.role) },
       };
       setAuthToken(newState.userInfo.token);
       break;
