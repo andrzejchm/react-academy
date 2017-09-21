@@ -1,8 +1,8 @@
 import moment from 'moment';
 import users from './users';
 
-const repairs = [];
-repairs.push({
+export const repairsList = [];
+repairsList.push({
   id: 1,
   name: 'abc',
   startDate: moment('2017-09-20T19:16:21+02:00'),
@@ -10,7 +10,7 @@ repairs.push({
   isCompleted: true,
   assignedUser: users.getUserBasic('user'),
 });
-repairs.push({
+repairsList.push({
   id: 2,
   name: 'abc',
   startDate: moment('2017-09-20T18:15:21+02:00'),
@@ -18,7 +18,7 @@ repairs.push({
   isCompleted: true,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
-repairs.push({
+repairsList.push({
   id: 3,
   name: 'abc',
   startDate: moment('2017-09-20T17:14:11+02:00'),
@@ -26,7 +26,7 @@ repairs.push({
   isCompleted: false,
   assignedUser: users.getUserBasic('user'),
 });
-repairs.push({
+repairsList.push({
   id: 4,
   name: 'abc',
   startDate: moment('2017-09-20T16:13:01+02:00'),
@@ -34,7 +34,7 @@ repairs.push({
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
-repairs.push({
+repairsList.push({
   id: 5,
   name: 'abc',
   startDate: moment('2017-09-20T15:11:21+02:00'),
@@ -42,7 +42,7 @@ repairs.push({
   isCompleted: true,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
-repairs.push({
+repairsList.push({
   id: 6,
   name: 'abc',
   startDate: moment('2017-09-20T14:10:21+02:00'),
@@ -50,7 +50,7 @@ repairs.push({
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
-repairs.push({
+repairsList.push({
   id: 7,
   name: 'abc',
   startDate: moment('2017-09-20T13:09:21+02:00'),
@@ -58,7 +58,7 @@ repairs.push({
   isCompleted: false,
   assignedUser: users.getUserBasic('andrzejchm'),
 });
-repairs.push({
+repairsList.push({
   id: 8,
   name: 'abc',
   startDate: moment('2017-09-20T12:08:21+02:00'),
@@ -108,7 +108,7 @@ export default {
   getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC', username = '') => {
     const fromInclusive = moment(momentDateFromInclusive).subtract(1, 'ms');
     const result = [];
-    repairs.forEach((value) => {
+    repairsList.forEach((value) => {
       if (isInDateRange(value, fromInclusive, momentDateToExclusive)
         && usernameMatches(value, username)) {
         result.push(value);
