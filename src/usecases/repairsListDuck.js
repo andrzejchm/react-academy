@@ -44,9 +44,9 @@ function getRepairsListReducer(state, action) {
 function fetchRepairsListAction(state) {
   return doRequest(GET, ACTION_GET_REPAIRS_LIST, ENDPOINTS.repairsList(
     moment(state.appliedFilters.startDate)
-      .add(state.appliedFilters.startTime, 'hours').unix(),
+      .add(state.appliedFilters.startTime, 'hours').valueOf(),
     moment(state.appliedFilters.endDate)
-      .add(state.appliedFilters.endTime - 24, 'hours').unix() + 2,
+      .add(state.appliedFilters.endTime - 24, 'hours').valueOf() + 2,
     // end of day is 23:59:59:999 and we want to include dates that end with 24:00:00:000
     // so we add +2 since endDate is exclusive
     state.sortType,

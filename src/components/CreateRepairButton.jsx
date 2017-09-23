@@ -11,7 +11,7 @@ const propTypes = {
 export default function CreateRepairButton({ userInfo, onClick }) {
   if (isAtLeastManager(userInfo)) {
     return (
-      <Button bsStyle="primary" bsSize="large" onClick={() => onClick()}>
+      <Button bsStyle="primary" bsSize="normal" onClick={() => onClick()}>
         <Glyphicon glyph="plus" /> Add repair
       </Button>
     );

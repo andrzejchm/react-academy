@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getUsersByNameAction, onUserSelectedAction, onTimeSelectedAction,
+import { getUsersByNameAction, onUserSelectedAction, onTimeSelectedAction, onApplyClickedAction,
   onDateChangedAction } from '../../usecases/createRepairDuck';
 import CreateRepairPage from '../../pages/CreateRepairPage';
 
@@ -13,6 +13,7 @@ const mapDispatchToProps = dispatch => ({
   getUsersByName: name => dispatch(getUsersByNameAction(name)),
   onUserSelected: user => dispatch(onUserSelectedAction(user)),
   onTimeSelected: hour => dispatch(onTimeSelectedAction(hour)),
+  onApplyClicked: () => dispatch(onApplyClickedAction()),
 });
 
 const CreateRepairContainer = withRouter(

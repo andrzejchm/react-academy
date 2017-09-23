@@ -11,6 +11,14 @@ export default class Repair {
     this.isCompleted = isCompleted;
     this.assignedUser = assignedUser;
   }
+
+  toApiPayload() {
+    return {
+      ...this,
+      startDate: this.startDate.valueOf(),
+      endDate: this.endDate.valueOf(),
+    };
+  }
 }
 
 export function repairFromApiResponse(apiResponse) {

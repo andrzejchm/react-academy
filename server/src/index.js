@@ -7,6 +7,7 @@ import login from './api/auth/login';
 import register from './api/auth/register';
 import repairsList from './api/repairs/listRepairs';
 import usersList from './api/users/listUsers';
+import repairCreate from './api/repairs/repairCreate';
 
 const app = express();
 
@@ -42,6 +43,10 @@ router.route('/auth/register')
 router.route('/repairs')
   .get(authBearer(),
     (req, res) => repairsList(req, res));
+
+router.route('/repairs/create')
+  .post(authBearer(),
+    (req, res) => repairCreate(req, res));
 
 router.route('/users/search')
   .get(authBearer(),

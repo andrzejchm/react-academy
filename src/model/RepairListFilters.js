@@ -4,11 +4,11 @@ import moment from 'moment';
 import { UserShape } from './User';
 
 
-export function getTodayStart() {
+export function getTodayUtcStart() {
   return moment().utcOffset(0).startOf('day');
 }
 
-function getTodayEnd() {
+function getTodayUtcEnd() {
   return moment().utcOffset(0).endOf('day');
 }
 
@@ -22,8 +22,8 @@ export function utcToLocalHour(value) {
 
 export default class RepairListFilters {
   constructor(
-    startDate = getTodayStart(),
-    endDate = getTodayEnd(),
+    startDate = getTodayUtcStart(),
+    endDate = getTodayUtcEnd(),
     startTime = localToUtcHour(0),
     endTime = localToUtcHour(24),
     showCompleted = true,
@@ -41,8 +41,8 @@ export default class RepairListFilters {
 }
 
 export function isFiltering(filters) {
-  return filters.startDate !== getTodayStart() ||
-    filters.endDate !== getTodayEnd() ||
+  return filters.startDate !== getTodayUtcStart() ||
+    filters.endDate !== getTodayUtcEnd() ||
     !filters.showCompleted ||
     !filters.showIncomplete ||
     filters.startTime !== localToUtcHour(0) ||

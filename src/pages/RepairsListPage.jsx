@@ -69,7 +69,7 @@ export default class RepairsListPage extends Component {
           repairsList={repairsList}
           history={history}
         />
-        <div className="text-center">
+        <div className="text-right">
           <CreateRepairButton
             userInfo={userInfo}
             onClick={() => history.push(config.routes.createRepair.path)}

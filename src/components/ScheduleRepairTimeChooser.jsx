@@ -6,6 +6,7 @@ import { RepairsTimesPropType } from '../usecases/createRepairDuck';
 import { STATUS_LOADING, STATUS_NONE } from '../redux/actions/rest_api';
 import Spinner from './Spinner';
 import { ApiResponseShape } from '../model/ApiResponse';
+import { localToUtcHour } from '../model/RepairListFilters';
 
 const utcOffset = moment().utcOffset() / 60;
 
@@ -28,7 +29,7 @@ function containsRepairAtHour(hour, repairsTimesArray) {
   const found = repairsTimesArray.find((element) => {
     const startHour = getHour(element.startTime);
     const endHour = getHour(element.endTime);
-    return hour === startHour || hour === endHour || (startHour < hour && endHour > hour);
+    return hour === startHour || (startHour <= hour && endHour > hour);
   });
   return found !== undefined;
 }
@@ -36,7 +37,7 @@ function containsRepairAtHour(hour, repairsTimesArray) {
 function getHours(repairsTimesArray) {
   const booleans = [];
   for (let i = 0; i < 24; i += 1) {
-    booleans.push({ hour: i, isTaken: containsRepairAtHour(i, repairsTimesArray) });
+    booleans.push({ hour: i, isTaken: containsRepairAtHour(localToUtcHour(i), repairsTimesArray) });
   }
   return booleans;
 }

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import repairs, { repairsList } from '../repairs';
+import repairs, { overlapsWitDateRange, repairsList } from '../repairs';
 import users from '../users';
 
 while (repairsList.length) {
@@ -67,7 +67,7 @@ it('getForDateRange returns items sorted by date ascending', () => {
   const dateToExclusive = moment('2017-09-20T16:16:00+02:00');
 
   expect(repairs.getForDateRange(dateFromInclusive, dateToExclusive).map(elem => elem.id))
-    .toEqual([7, 6, 5]);
+    .toEqual([8, 7, 6, 5, 4]);
 });
 
 it('getForDateRange returns no items for date range without items', () => {
@@ -92,4 +92,40 @@ it('getForDateRange dateTo is exclusive', () => {
 
   expect(repairs.getForDateRange(dateFromInclusive, dateToExclusive).map(elem => elem.id))
     .toEqual([]);
+});
+
+it('overlapsWitDateRange does not overlap', () => {
+  const refDate = moment('2017-09-15T13:09:20+02:00');
+  const value = { startDate: moment(refDate).subtract(1, 'h'), endDate: moment(refDate) };
+  const from = moment(refDate).add(10, 'ms');
+  const to = moment(refDate).add(1, 'ms');
+
+  expect(overlapsWitDateRange(value, from, to)).toBe(false);
+});
+
+it('overlapsWitDateRange overlaps partialy', () => {
+  const refDate = moment('2017-09-15T13:09:20+02:00');
+  const value = { startDate: moment(refDate).subtract(1, 'h'), endDate: moment(refDate) };
+  const from = moment(refDate).subtract(10, 'ms');
+  const to = moment(refDate).add(1, 'ms');
+
+  expect(overlapsWitDateRange(value, from, to)).toBe(true);
+});
+
+it('overlapsWitDateRange has exact same start', () => {
+  const refDate = moment('2017-09-15T13:09:20+02:00');
+  const value = { startDate: moment(refDate).subtract(1, 'h'), endDate: moment(refDate) };
+  const from = value.startDate;
+  const to = moment(refDate).subtract(1, 'ms');
+
+  expect(overlapsWitDateRange(value, from, to)).toBe(true);
+});
+
+it('overlapsWitDateRange has exact same end as beginning of range', () => {
+  const refDate = moment('2017-09-15T13:09:20+02:00');
+  const value = { startDate: moment(refDate).subtract(1, 'h'), endDate: moment(refDate) };
+  const from = value.endDate;
+  const to = moment(value.endDate).add(1, 'ms');
+
+  expect(overlapsWitDateRange(value, from, to)).toBe(false);
 });

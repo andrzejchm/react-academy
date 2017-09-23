@@ -4,11 +4,15 @@ import { Col, ControlLabel, FormGroup, Grid, Row } from 'react-bootstrap';
 import DayPicker from '../components/SingleDayPicker';
 import ScheduleRepairTimeChooser from '../components/ScheduleRepairTimeChooser';
 import { CreateRepairPropType } from '../usecases/createRepairDuck';
-import { STATUS_NONE } from '../redux/actions/rest_api';
+import { STATUS_NONE, STATUS_SUCCESS } from '../redux/actions/rest_api';
 import strings from '../config/strings';
 import ChooseUserDropDown from '../components/ChooseUserDropDown';
+import RepairApplyButton from '../components/RepairApplyButton';
+import { Redirect } from 'react-router-dom';
+import config from '../config/config';
 
 const propTypes = {
+  onApplyClicked: PropTypes.func.isRequired,
   onTimeSelected: PropTypes.func.isRequired,
   onDateChanged: PropTypes.func.isRequired,
   onUserSelected: PropTypes.func.isRequired,
@@ -16,20 +20,21 @@ const propTypes = {
   createRepairState: CreateRepairPropType.isRequired,
 };
 
-const defaultProps = {
+const defaultProps = {};
 
-};
-
-function loadRepairsTimesIfNeccessary(repairsTimes, onDateChanged) {
-  if (repairsTimes.status === STATUS_NONE) {
-    onDateChanged(repairsTimes.date);
+function loadRepairsTimesIfNeccessary(createRepairState, onDateChanged) {
+  if (createRepairState.repairsTimes.status === STATUS_NONE) {
+    onDateChanged(createRepairState.date);
   }
 }
 
 export default function CreateRepairPage({
-  createRepairState, onDateChanged, onUserSelected, getUsersByName, onTimeSelected,
+  createRepairState, onDateChanged, onUserSelected, getUsersByName, onTimeSelected, onApplyClicked,
 }) {
-  loadRepairsTimesIfNeccessary(createRepairState.repairsTimes, onDateChanged);
+  loadRepairsTimesIfNeccessary(createRepairState, onDateChanged);
+  if (createRepairState.userCreateStatus === STATUS_SUCCESS) {
+    return <Redirect to={config.routes.repairs.path} />;
+  }
   return (
     <div>
       <h3>{strings.create_repair}</h3>
@@ -61,6 +66,14 @@ export default function CreateRepairPage({
               selectedTime={createRepairState.selectedTime}
               repairsTimes={createRepairState.repairsTimes}
               onTimeSelected={hour => onTimeSelected(hour)}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col mdPush={2} md={6} style={{ marginTop: 32, marginLeft: 0, padding: 0 }}>
+            <RepairApplyButton
+              createRepairState={createRepairState}
+              onClick={onApplyClicked}
             />
           </Col>
         </Row>

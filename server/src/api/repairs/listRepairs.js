@@ -14,8 +14,8 @@ export default function listRepairs(req, res) {
     res.json(
       wrap(
         repairs.getForDateRange(
-          moment.unix(req.query.from),
-          moment.unix(req.query.to),
+          moment(+req.query.from),
+          moment(+req.query.to),
           req.query.sortType,
           req.query.assignedUser,
           req.query.showIncomplete === 'true',
