@@ -1,11 +1,13 @@
 import MomentPropTypes from 'react-moment-proptypes';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { UserShape } from './User';
 
 
-function getTodayStart() {
+export function getTodayStart() {
   return moment().utcOffset(0).startOf('day');
 }
+
 function getTodayEnd() {
   return moment().utcOffset(0).endOf('day');
 }
@@ -26,7 +28,7 @@ export default class RepairListFilters {
     endTime = localToUtcHour(24),
     showCompleted = true,
     showIncomplete = true,
-    assignedUser = '',
+    assignedUser = null,
   ) {
     this.startDate = startDate;
     this.endDate = endDate;
@@ -55,5 +57,5 @@ export const RepairListFiltersShape = PropTypes.shape({
   endTime: PropTypes.number,
   showCompleted: PropTypes.bool,
   showIncomplete: PropTypes.bool,
-  assignedUser: PropTypes.string,
+  assignedUser: UserShape,
 });

@@ -20,9 +20,12 @@ export default {
   filter_label_choose_day: 'Choose day',
   filter_label_choose_user: 'Choose user',
   filter_label_choose_time: 'Choose time',
+  assign_user: 'Assign user',
   apply_button: 'Apply',
   filter_label_choose_status: 'Status',
   filter_completed_show_all: 'Show All',
   filter_completed_only: 'Completed only',
   filter_incomplete_only: 'Incomplete only',
+  repairs_list_for: date => `Repairs for ${date}`,
+  create_repair: 'Create repair',
 };

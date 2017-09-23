@@ -1,20 +1,23 @@
 import React from 'react';
-import { Form, FormGroup, Panel } from 'react-bootstrap';
+import { ControlLabel, Form, FormGroup, Panel } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import 'react-dates/lib/css/_datepicker.css';
 import { RepairListFiltersShape } from '../model/RepairListFilters';
-import FiltersDatePicker from './FiltersDatePicker';
-import UsernameChooser from './UsernameChooser';
+import SingleDayPicker from './SingleDayPicker';
 import FiltersApplyButton from './FiltersApplyButton';
 import FiltersTimePicker from './FiltersTimePicker';
 import FiltersCompletedStatePicker from './FiltersCompletedStatePicker';
+import strings from '../config/strings';
+import ChooseUserDropDown from './ChooseUserDropDown';
+import { FilterPanelShape } from '../usecases/repairsFiltersPanelDuck';
 
 const propTypes = {
-  filterPanelValues: RepairListFiltersShape.isRequired,
+  filterPanel: FilterPanelShape.isRequired,
   appliedFilters: RepairListFiltersShape.isRequired,
   expanded: PropTypes.bool.isRequired,
   onFilterPanelValuesChanged: PropTypes.func.isRequired,
   onFiltersApplied: PropTypes.func.isRequired,
+  getUsersByName: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -23,52 +26,66 @@ const defaultProps = {
 
 export default function FiltersPanel({
   appliedFilters,
-  filterPanelValues,
+  filterPanel,
   expanded,
   onFilterPanelValuesChanged,
   onFiltersApplied,
+  getUsersByName,
 }) {
   return (<Panel collapsible expanded={expanded}>
     <Form inline>
       <FormGroup>
-        <FiltersDatePicker
-          startDate={filterPanelValues.startDate}
-          endDate={filterPanelValues.endDate}
-          onDateChanged={(startDate, endDate) =>
-            onFilterPanelValuesChanged({ ...filterPanelValues, startDate, endDate })}
+        <ControlLabel
+          style={{ marginRight: '6px' }}
+        >{strings.filter_label_choose_day}</ControlLabel>&nbsp;
+        <SingleDayPicker
+          startDate={filterPanel.filters.startDate}
+          endDate={filterPanel.filters.endDate}
+          onDayChanged={(startDate, endDate) =>
+            onFilterPanelValuesChanged({ ...filterPanel.filters, startDate, endDate })}
         />
       </FormGroup>
-      <FormGroup>
-        <UsernameChooser
-          username={filterPanelValues.assignedUser}
-          onUsernameChanged={assignedUser =>
-            onFilterPanelValuesChanged({ ...filterPanelValues, assignedUser })}
+      <ControlLabel style={{ marginLeft: '16px' }}>
+        {strings.filter_label_choose_user}
+      </ControlLabel>
+      <FormGroup
+        style={{ width: '150px',
+          verticalAlign: 'middle',
+          display: 'inline-block',
+          paddingLeft: '6px' }}
+      >
+        <ChooseUserDropDown
+          getUsersByName={getUsersByName}
+          users={filterPanel.users}
+          selectedUser={filterPanel.filters.assignedUser}
+          onUserSelected={assignedUser =>
+            onFilterPanelValuesChanged({ ...filterPanel.filters, assignedUser })}
         />
       </FormGroup>
       <FormGroup>
         <FiltersTimePicker
-          startTime={filterPanelValues.startTime}
-          endTime={filterPanelValues.endTime}
+          startTime={filterPanel.filters.startTime}
+          endTime={filterPanel.filters.endTime}
           onStartTimeChanged={startTime =>
-            onFilterPanelValuesChanged({ ...filterPanelValues, startTime })}
+            onFilterPanelValuesChanged({ ...filterPanel.filters, startTime })}
           onEndTimeChanged={endTime => onFilterPanelValuesChanged(
-            { ...filterPanelValues, endTime })}
+            { ...filterPanel.filters, endTime })}
         />
       </FormGroup>
       <FormGroup>
         <FiltersCompletedStatePicker
-          showCompleted={filterPanelValues.showCompleted}
-          showIncomplete={filterPanelValues.showIncomplete}
+          showCompleted={filterPanel.filters.showCompleted}
+          showIncomplete={filterPanel.filters.showIncomplete}
           onCompletedStateSelected={(showCompleted, showIncomplete) => {
-            onFilterPanelValuesChanged({ ...filterPanelValues, showCompleted, showIncomplete });
+            onFilterPanelValuesChanged({ ...filterPanel.filters, showCompleted, showIncomplete });
           }}
         />
       </FormGroup>
       <FormGroup>
         <FiltersApplyButton
           appliedFilters={appliedFilters}
-          filterPanelValues={filterPanelValues}
-          onClick={() => onFiltersApplied(filterPanelValues)}
+          filterPanelValues={filterPanel.filters}
+          onClick={() => onFiltersApplied(filterPanel.filters)}
         />
       </FormGroup>
     </Form>

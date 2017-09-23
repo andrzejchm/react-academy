@@ -13,6 +13,7 @@ export const ENDPOINTS = {
   repairsList: (dateFrom, dateTo, sortType, assignedUser, showCompleted, showIncomplete) =>
     `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}&assignedUser=${assignedUser}` +
     `&showIncomplete=${showIncomplete}&showCompleted=${showCompleted}`,
+  usersByName: name => `/users/search?username=${name}`,
 };
 
 export const POST = 'post';

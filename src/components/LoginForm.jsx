@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import strings from '../config/strings';
 import { STATUS_ERROR, STATUS_LOADING } from '../redux/actions/rest_api';
 import { UserInfoShape } from '../model/UserInfo';
-import { ApiResponseShapeInterior } from '../model/ApiResponse';
+import { ApiResponseShape } from '../model/ApiResponse';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -93,7 +93,7 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  userInfo: PropTypes.shape(ApiResponseShapeInterior(UserInfoShape)).isRequired,
+  userInfo: PropTypes.shape(ApiResponseShape(UserInfoShape)).isRequired,
 };
 
 LoginForm.defaultProps = {

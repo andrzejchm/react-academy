@@ -10,16 +10,22 @@ import { RepairsListShape } from '../usecases/repairsListDuck';
 import { FilterPanelShape } from '../usecases/repairsFiltersPanelDuck';
 import FiltersPanel from '../components/FiltersPanel';
 import FiltersSortTypeSelector from '../components/FiltersSortTypeSelector';
+import { UserInfoShape } from '../model/UserInfo';
+import CreateRepairButton from '../components/CreateRepairButton';
+import config from '../config/config';
+import strings from '../config/strings';
 
 const propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
   repairsList: RepairsListShape.isRequired,
+  userInfo: UserInfoShape.isRequired,
   filterPanel: FilterPanelShape.isRequired,
   triggerRepairsListFetch: PropTypes.func.isRequired,
   filtersApplied: PropTypes.func.isRequired,
   sortTypeChanged: PropTypes.func.isRequired,
   filtersButtonClicked: PropTypes.func.isRequired,
   onFilterPanelValuesChanged: PropTypes.func.isRequired,
+  getUsersByName: PropTypes.func.isRequired,
 };
 
 export default class RepairsListPage extends Component {
@@ -28,13 +34,15 @@ export default class RepairsListPage extends Component {
   }
 
   render() {
-    const { filterPanel, repairsList, history, onFilterPanelValuesChanged,
-      filtersApplied } = this.props;
+    const {
+      filterPanel, userInfo, repairsList, history, onFilterPanelValuesChanged,
+      filtersApplied, getUsersByName,
+    } = this.props;
     return (
       <div>
         <Row>
           <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
-            <h4>{repairsList.appliedFilters.startDate.format('D MMM')}</h4>
+            <h3>{strings.repairs_list_for(repairsList.appliedFilters.startDate.format('D MMM'))}</h3>
           </Col>
           <Col xs={9} sm={3}>
             <FiltersSortTypeSelector
@@ -51,15 +59,22 @@ export default class RepairsListPage extends Component {
         </Row>
         <FiltersPanel
           appliedFilters={repairsList.appliedFilters}
-          filterPanelValues={filterPanel.filters}
+          filterPanel={filterPanel}
           onFilterPanelValuesChanged={filters => onFilterPanelValuesChanged(filters)}
           onFiltersApplied={filters => filtersApplied(filters)}
           expanded={filterPanel.expanded}
+          getUsersByName={getUsersByName}
         />
         <RepairsList
           repairsList={repairsList}
           history={history}
         />
+        <div className="text-center">
+          <CreateRepairButton
+            userInfo={userInfo}
+            onClick={() => history.push(config.routes.createRepair.path)}
+          />
+        </div>
       </div>
     );
   }

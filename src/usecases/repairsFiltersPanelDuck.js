@@ -4,14 +4,23 @@ import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFi
 import config from '../config/config';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import { ACTION_REPAIRS_LIST_FILTERS_APPLIED } from './repairsListDuck';
+import { doRequest, ENDPOINTS, GET } from '../redux/actions/rest_api';
+import getReducerForApiRequest,
+{ initialState as apiInitialState } from './usecases/apiRequestReducer';
+import { ApiResponseShape } from '../model/ApiResponse';
+import { UserShape } from '../model/User';
 
-const ACTION_TOGGLE_REPAIRS_LIST_FILTERS_VISIBILITY = 'REPAIRS_FILTERS_PANEL/TOGGLE_VISIBILITY';
-const ACTION_FILTER_PANEL_VALUES_CHANGED = 'REPAIRS_FILTERS_PANEL/VALUES_CHANGED';
+const PREFIX = 'REPAIRS_FILTERS_PANEL';
+
+const ACTION_TOGGLE_FILTERS_VISIBILITY = `${PREFIX}/TOGGLE_VISIBILITY`;
+const ACTION_VALUES_CHANGED = `${PREFIX}/VALUES_CHANGED`;
+const ACTION_GET_USERS = `${PREFIX}/GET_USERS`;
 
 
 export const initialState = {
   filters: { ...new RepairListFilters() },
   expanded: false,
+  users: apiInitialState,
 };
 
 function toggleFiltersVisibilityReducer(state) {
@@ -37,24 +46,34 @@ export default function reducer(state = initialState, action = {}) {
       return initialState;
     case ACTION_REPAIRS_LIST_FILTERS_APPLIED:
       return changeFiltersReducer(toggleFiltersVisibilityReducer(state), action);
-    case ACTION_FILTER_PANEL_VALUES_CHANGED:
+    case ACTION_VALUES_CHANGED:
       return changeFiltersReducer(state, action);
-    case ACTION_TOGGLE_REPAIRS_LIST_FILTERS_VISIBILITY:
+    case ACTION_TOGGLE_FILTERS_VISIBILITY:
       return toggleFiltersVisibilityReducer(state);
+    case ACTION_GET_USERS:
+      return { ...state, users: getReducerForApiRequest(ACTION_GET_USERS)(state.users, action) };
     default:
       return state;
   }
 }
 
 export function toggleFiltersVisibility() {
-  return { type: ACTION_TOGGLE_REPAIRS_LIST_FILTERS_VISIBILITY };
+  return { type: ACTION_TOGGLE_FILTERS_VISIBILITY };
 }
 
 export function filterPanelValuesChanged(filterPanelValues) {
-  return { type: ACTION_FILTER_PANEL_VALUES_CHANGED, payload: filterPanelValues };
+  return { type: ACTION_VALUES_CHANGED, payload: filterPanelValues };
+}
+
+
+export function getUsersByNameAction(name) {
+  return (dispatch, getState) => {
+    doRequest(GET, ACTION_GET_USERS, ENDPOINTS.usersByName(name))(dispatch, getState);
+  };
 }
 
 export const FilterPanelShape = PropTypes.shape({
   expanded: PropTypes.bool,
-  appliedFilters: RepairListFiltersShape,
+  filters: RepairListFiltersShape,
+  users: ApiResponseShape(PropTypes.arrayOf(UserShape)),
 });

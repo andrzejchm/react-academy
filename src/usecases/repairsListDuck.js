@@ -7,15 +7,16 @@ import {
 import { repairFromApiResponse, RepairShape } from '../model/Repair';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFilters';
-import { ApiResponseShapeInterior } from '../model/ApiResponse';
+import { ApiResponseShape } from '../model/ApiResponse';
 import config from '../config/config';
+import { getActionType } from '../utils';
 
 
 export const ACTION_REPAIRS_LIST_FILTERS_APPLIED = 'REPAIRS_LIST/FILTERS_APPLIED';
 const ACTION_GET_REPAIRS_LIST = 'REPAIRS_LIST/GET_REPAIRS';
 const ACTION_REPAIRS_LIST_SORT_TYPE_CHANGED = 'REPAIRS_LIST/SORT_TYPE_CHANGED';
 
-const DEFAULT_SORT_TYPE = 'DATE_ASC';
+export const DEFAULT_SORT_TYPE = 'DATE_ASC';
 
 export const initialState = {
   payload: null,
@@ -49,7 +50,7 @@ function fetchRepairsListAction(state) {
     // end of day is 23:59:59:999 and we want to include dates that end with 24:00:00:000
     // so we add +2 since endDate is exclusive
     state.sortType,
-    state.appliedFilters.assignedUser,
+    state.appliedFilters.assignedUser ? state.appliedFilters.assignedUser.username : '',
     state.appliedFilters.showCompleted,
     state.appliedFilters.showIncomplete,
   ));
@@ -71,7 +72,7 @@ function sortTypeChangedReducer(state, action) {
 }
 
 export default function reducer(state = initialState, action = {}) {
-  switch (action.type.split('#')[0]) {
+  switch (getActionType(action)) {
     case LOCATION_CHANGE:
       return locationChangedReducer(state, action);
     case ACTION_USER_LOGOUT:
@@ -108,6 +109,6 @@ export function triggerRepairsListFetch() {
 }
 
 export const RepairsListShape = PropTypes.shape({
-  ...ApiResponseShapeInterior(PropTypes.arrayOf(RepairShape)),
+  ...ApiResponseShape(PropTypes.arrayOf(RepairShape)),
   appliedFilters: RepairListFiltersShape,
 });

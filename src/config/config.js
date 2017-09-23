@@ -5,6 +5,10 @@ export default {
       path: '/repairs',
       activeTab: 1,
     },
+    createRepair: {
+      path: '/repairs/create',
+      activeTab: 1,
+    },
     repairDetails: id => ({
       path: `/repairs/${id}`,
       activeTab: 1,
@@ -18,6 +22,9 @@ export default {
     },
     register: {
       path: '/register',
+    },
+    accessDenied: {
+      path: '/accessDenied',
     },
   },
 };

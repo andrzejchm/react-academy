@@ -8,7 +8,7 @@ import config from '../config/config';
 import LoginForm from '../components/LoginForm';
 import { STATUS_SUCCESS } from '../redux/actions/rest_api';
 import { UserInfoShape } from '../model/UserInfo';
-import { ApiResponseShapeInterior } from '../model/ApiResponse';
+import { ApiResponseShape } from '../model/ApiResponse';
 
 export default class LoginPage extends Component {
   componentWillReceiveProps(nextProps) {
@@ -40,6 +40,6 @@ export default class LoginPage extends Component {
 
 LoginPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  userInfo: PropTypes.shape(ApiResponseShapeInterior(UserInfoShape)).isRequired,
+  userInfo: PropTypes.shape(ApiResponseShape(UserInfoShape)).isRequired,
   history: ReactRouterPropTypes.history.isRequired,
 };

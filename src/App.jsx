@@ -9,6 +9,7 @@ import config from './config/config';
 import RegisterContainer from './redux/containers/RegisterContainer';
 import RepairsListContainer from './redux/containers/RepairsListContainer';
 import { isAtLeastManager, isLoggedIn } from './permissions';
+import CreateRepairContainer from './redux/containers/CreateRepairContainer';
 
 export default function App() {
   return (
@@ -20,6 +21,13 @@ export default function App() {
         exact
         {...config.routes.repairs}
         component={RepairsListContainer}
+      />
+      <AppLayoutRoute
+        isAccessGranted={isAtLeastManager}
+        redirectOnAccessDenied={config.routes.accessDenied.path}
+        exact
+        {...config.routes.createRepair}
+        component={CreateRepairContainer}
       />
       <AppLayoutRoute
         isAccessGranted={isLoggedIn}

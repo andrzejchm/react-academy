@@ -8,14 +8,14 @@ import strings from '../config/strings';
 
 const propTypes = {
   startDate: MomentPropTypes.momentObj,
-  onDateChanged: PropTypes.func.isRequired,
+  onDayChanged: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   startDate: moment().startOf('day'),
 };
 
-export default class FiltersDatePicker extends Component {
+export default class SingleDayPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,16 +30,12 @@ export default class FiltersDatePicker extends Component {
 
   dateChanged(date) {
     this.setState({ date });
-    this.props.onDateChanged(moment(date).startOf('day'), moment(date).endOf('day'));
+    this.props.onDayChanged(moment(date).startOf('day'), moment(date).endOf('day'));
   }
 
   render() {
     return (
       <span>
-
-        <ControlLabel
-          style={{ marginRight: '6px' }}
-        >{strings.filter_label_choose_day}</ControlLabel>&nbsp;
         <SingleDatePicker
           date={this.state.date}
           keepOpenOnDateSelect={false}
@@ -54,6 +50,6 @@ export default class FiltersDatePicker extends Component {
   }
 }
 
-FiltersDatePicker.propTypes = propTypes;
+SingleDayPicker.propTypes = propTypes;
 
-FiltersDatePicker.defaultProps = defaultProps;
+SingleDayPicker.defaultProps = defaultProps;

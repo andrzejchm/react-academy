@@ -6,6 +6,7 @@ import configurePassport from './auth';
 import login from './api/auth/login';
 import register from './api/auth/register';
 import repairsList from './api/repairs/listRepairs';
+import usersList from './api/users/listUsers';
 
 const app = express();
 
@@ -42,6 +43,9 @@ router.route('/repairs')
   .get(authBearer(),
     (req, res) => repairsList(req, res));
 
+router.route('/users/search')
+  .get(authBearer(),
+    (req, res) => usersList(req, res));
 app.use('/api', router);
 
 app.listen(8080, () => {
