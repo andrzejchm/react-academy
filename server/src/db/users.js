@@ -34,4 +34,10 @@ export default {
       role: 'user',
     };
   },
+
+  getUsersContainingUsername(searchPhrase) {
+    return Object.keys(users)
+      .filter(username => username.toLowerCase().indexOf(searchPhrase.toLowerCase()) !== -1)
+      .map(username => this.getUserBasic(username));
+  },
 };

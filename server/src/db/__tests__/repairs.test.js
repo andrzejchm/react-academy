@@ -7,7 +7,6 @@ while (repairsList.length) {
 }
 repairsList.push({
   id: 1,
-  name: 'abc',
   startDate: moment('2017-09-20T19:16:21+02:00'),
   endDate: moment('2017-09-20T20:16:21+02:00'),
   isCompleted: true,
@@ -15,7 +14,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 2,
-  name: 'abc',
   startDate: moment('2017-09-20T18:15:21+02:00'),
   endDate: moment('2017-09-20T19:15:21+02:00'),
   isCompleted: true,
@@ -23,7 +21,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 3,
-  name: 'abc',
   startDate: moment('2017-09-20T17:14:11+02:00'),
   endDate: moment('2017-09-20T18:14:11+02:00'),
   isCompleted: false,
@@ -31,7 +28,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 4,
-  name: 'abc',
   startDate: moment('2017-09-20T16:13:01+02:00'),
   endDate: moment('2017-09-20T17:13:01+02:00'),
   isCompleted: false,
@@ -39,7 +35,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 5,
-  name: 'abc',
   startDate: moment('2017-09-20T15:11:21+02:00'),
   endDate: moment('2017-09-20T16:11:21+02:00'),
   isCompleted: true,
@@ -47,7 +42,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 6,
-  name: 'abc',
   startDate: moment('2017-09-20T14:10:21+02:00'),
   endDate: moment('2017-09-20T15:10:21+02:00'),
   isCompleted: false,
@@ -55,7 +49,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 7,
-  name: 'abc',
   startDate: moment('2017-09-20T13:09:21+02:00'),
   endDate: moment('2017-09-20T14:09:21+02:00'),
   isCompleted: false,
@@ -63,7 +56,6 @@ repairsList.push({
 });
 repairsList.push({
   id: 8,
-  name: 'abc',
   startDate: moment('2017-09-20T12:08:21+02:00'),
   endDate: moment('2017-09-14T13:08:21+02:00'),
   isCompleted: true,
