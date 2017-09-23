@@ -2,7 +2,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
-  doRequest, ENDPOINTS, GET, STATUS_NONE,
+  DELETE,
+  doRequest, ENDPOINTS, GET, STATUS_NONE, STATUS_SUCCESS,
 } from '../redux/actions/rest_api';
 import { repairFromApiResponse, RepairShape } from '../model/Repair';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
@@ -15,6 +16,7 @@ import { getActionType } from '../utils';
 export const ACTION_REPAIRS_LIST_FILTERS_APPLIED = 'REPAIRS_LIST/FILTERS_APPLIED';
 const ACTION_GET_REPAIRS_LIST = 'REPAIRS_LIST/GET_REPAIRS';
 const ACTION_REPAIRS_LIST_SORT_TYPE_CHANGED = 'REPAIRS_LIST/SORT_TYPE_CHANGED';
+const ACTION_REMOVE_REPAIR = 'REPAIRS_LIST/REMOVE_REPAIR';
 
 export const DEFAULT_SORT_TYPE = 'DATE_ASC';
 
@@ -24,6 +26,7 @@ export const initialState = {
   error: null,
   appliedFilters: { ...new RepairListFilters() },
   sortType: DEFAULT_SORT_TYPE,
+  removeRepairStatus: STATUS_NONE,
 };
 
 function getRepairsListReducer(state, action) {
@@ -71,6 +74,13 @@ function sortTypeChangedReducer(state, action) {
   return { ...state, sortType: action.payload };
 }
 
+function removeRepairReducer(state, action) {
+  if (action.status === STATUS_SUCCESS) {
+    return { ...state, removeRepairStatus: action.status };
+  }
+  return { ...state, removeRepairStatus: action.status };
+}
+
 export default function reducer(state = initialState, action = {}) {
   switch (getActionType(action)) {
     case LOCATION_CHANGE:
@@ -83,6 +93,8 @@ export default function reducer(state = initialState, action = {}) {
       return filtersChangeReducer(state, action);
     case ACTION_REPAIRS_LIST_SORT_TYPE_CHANGED:
       return sortTypeChangedReducer(state, action);
+    case ACTION_REMOVE_REPAIR:
+      return removeRepairReducer(state, action);
     default:
       return state;
   }
@@ -92,6 +104,14 @@ export function sortTypeChanged(sortType) {
   return (dispatch, getState) => {
     dispatch({ type: ACTION_REPAIRS_LIST_SORT_TYPE_CHANGED, payload: sortType });
     fetchRepairsListAction(getState().repairsList)(dispatch, getState);
+  };
+}
+
+export function removeRepairAction(repair) {
+  return (dispatch, getState) => {
+    doRequest(DELETE, ACTION_REMOVE_REPAIR, ENDPOINTS.removeRepair(repair.id), null, () => {
+      fetchRepairsListAction(getState().repairsList)(dispatch, getState);
+    })(dispatch, getState);
   };
 }
 

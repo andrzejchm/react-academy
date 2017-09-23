@@ -14,11 +14,13 @@ export const ENDPOINTS = {
     `/repairs?from=${dateFrom}&to=${dateTo}&sortType=${sortType}&assignedUser=${assignedUser}` +
     `&showIncomplete=${showIncomplete}&showCompleted=${showCompleted}`,
   usersByName: name => `/users/search?username=${name}`,
+  removeRepair: id => `/repairs/${id}`,
   createRepair: '/repairs/create',
 };
 
 export const POST = 'post';
 export const GET = 'get';
+export const DELETE = 'delete';
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -32,7 +34,7 @@ function getAuthHeaders(store) {
   return {};
 }
 
-export function doRequest(method, actionType, path, body = null) {
+export function doRequest(method, actionType, path, body = null, callback) {
   return (dispatch, getStore) => {
     dispatch({
       type: actionType + STATUS_LOADING,
@@ -85,6 +87,9 @@ export function doRequest(method, actionType, path, body = null) {
           headers: response.headers,
           error: null,
         });
+        if (callback) {
+          callback();
+        }
       }
     });
   };

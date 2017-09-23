@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { filtersApplied, sortTypeChanged, triggerRepairsListFetch } from '../../usecases/repairsListDuck';
+import {
+  filtersApplied, removeRepairAction, sortTypeChanged,
+  triggerRepairsListFetch,
+} from '../../usecases/repairsListDuck';
 import RepairsListPage from '../../pages/RepairsListPage';
 import {
   toggleFiltersVisibility, filterPanelValuesChanged,
@@ -19,6 +22,7 @@ const mapDispatchToProps = dispatch => ({
   filtersButtonClicked: () => dispatch(toggleFiltersVisibility()),
   sortTypeChanged: sortType => dispatch(sortTypeChanged(sortType)),
   getUsersByName: name => dispatch(getUsersByNameAction(name)),
+  onRemoveClick: repair => dispatch(removeRepairAction(repair)),
   onFilterPanelValuesChanged: filterPanelValues =>
     dispatch(filterPanelValuesChanged(filterPanelValues)),
 });

@@ -8,6 +8,7 @@ import register from './api/auth/register';
 import repairsList from './api/repairs/listRepairs';
 import usersList from './api/users/listUsers';
 import repairCreate from './api/repairs/repairCreate';
+import repairDelete from './api/repairs/repairDelete';
 
 const app = express();
 
@@ -43,6 +44,10 @@ router.route('/auth/register')
 router.route('/repairs')
   .get(authBearer(),
     (req, res) => repairsList(req, res));
+
+router.route('/repairs/:id')
+  .delete(authBearer(),
+    (req, res) => repairDelete(req, res));
 
 router.route('/repairs/create')
   .post(authBearer(),

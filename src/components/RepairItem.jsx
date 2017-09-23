@@ -1,14 +1,22 @@
 import React from 'react';
 import Radium from 'radium';
-import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Image, Media } from 'react-bootstrap';
+import { Button, Glyphicon, Image, Media } from 'react-bootstrap';
 import globalStyles from '../config/styles';
 import { RepairShape } from '../model/Repair';
+import UserInfo from '../model/UserInfo';
+import { isAtLeastManager } from '../permissions';
 
 require('moment-duration-format');
 
-const RepairItem = Radium(({ repair, onClick }) => (
+const propTypes = {
+  repair: RepairShape.isRequired,
+  userInfo: UserInfo.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onRemoveClicked: PropTypes.func.isRequired,
+};
+
+const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked }) => (
   <div
     onClick={() => onClick()}
     role="button"
@@ -44,15 +52,25 @@ const RepairItem = Radium(({ repair, onClick }) => (
         </p>
       </Media.Body>
       <Media.Right>
-        <small>{repair.startDate.format('HH:mm')}&nbsp;({moment.duration(repair.endDate.diff(repair.startDate)).format()})</small>
+        <div style={{ width: 200 }} className="text-right">
+          <small>{repair.startDate.format('HH:mm')}&nbsp;- &nbsp;{repair.endDate.format('HH:mm')}</small>
+          {isAtLeastManager(userInfo) && (
+            <Button
+              bsStyle="link"
+              style={{ marginLeft: 16 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemoveClicked();
+              }}
+            >
+              <Glyphicon glyph="remove" />
+            </Button>)}
+        </div>
       </Media.Right>
     </Media>
   </div>
 ));
 
-RepairItem.propTypes = {
-  repair: RepairShape.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+RepairItem.propTypes = propTypes;
 
 export default RepairItem;

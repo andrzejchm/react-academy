@@ -25,6 +25,7 @@ const propTypes = {
   sortTypeChanged: PropTypes.func.isRequired,
   filtersButtonClicked: PropTypes.func.isRequired,
   onFilterPanelValuesChanged: PropTypes.func.isRequired,
+  onRemoveClick: PropTypes.func.isRequired,
   getUsersByName: PropTypes.func.isRequired,
 };
 
@@ -36,7 +37,7 @@ export default class RepairsListPage extends Component {
   render() {
     const {
       filterPanel, userInfo, repairsList, history, onFilterPanelValuesChanged,
-      filtersApplied, getUsersByName,
+      filtersApplied, getUsersByName, onRemoveClick,
     } = this.props;
     return (
       <div>
@@ -66,8 +67,10 @@ export default class RepairsListPage extends Component {
           getUsersByName={getUsersByName}
         />
         <RepairsList
+          userInfo={userInfo}
           repairsList={repairsList}
           history={history}
+          onRemoveClick={repair => onRemoveClick(repair)}
         />
         <div className="text-right">
           <CreateRepairButton

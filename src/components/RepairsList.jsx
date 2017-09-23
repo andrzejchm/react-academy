@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import PropTypes from 'prop-types';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import { ListGroup } from 'react-bootstrap';
 
@@ -11,9 +12,12 @@ import Spinner from './Spinner';
 import { STATUS_LOADING, STATUS_NONE, STATUS_SUCCESS } from '../redux/actions/rest_api';
 import ErrorMessage from './ErrorMessage';
 import { RepairsListShape } from '../usecases/repairsListDuck';
+import { UserInfoShape } from '../model/UserInfo';
 
 const propTypes = {
+  onRemoveClick: PropTypes.func.isRequired,
   repairsList: RepairsListShape,
+  userInfo: UserInfoShape.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
 };
 
@@ -21,7 +25,7 @@ const defaultProps = {
   repairsList: [],
 };
 
-function RepairsList({ repairsList, history }) {
+function RepairsList({ userInfo, repairsList, history, onRemoveClick }) {
   function onRepairClick(repair) {
     const repairDetails = config.routes.repairDetails(repair.id).path;
     history.push(repairDetails);
@@ -47,8 +51,10 @@ function RepairsList({ repairsList, history }) {
       <ListGroup>
         {repairsList.payload.map(repair =>
           (<RepairItem
+            userInfo={userInfo}
             key={repair.id}
             repair={repair}
+            onRemoveClicked={() => onRemoveClick(repair)}
             onClick={() => onRepairClick(repair)}
           />))}
       </ListGroup>
