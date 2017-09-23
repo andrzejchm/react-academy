@@ -4,7 +4,7 @@ import { filtersApplied, sortTypeChanged, triggerRepairsListFetch } from '../../
 import RepairsListPage from '../../pages/RepairsListPage';
 import {
   toggleFiltersVisibility, filterPanelValuesChanged,
-  getUsersByNameAction
+  getUsersByNameAction,
 } from '../../usecases/repairsFiltersPanelDuck';
 
 const mapStateToProps = state => ({

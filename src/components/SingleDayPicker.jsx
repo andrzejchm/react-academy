@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { SingleDatePicker } from 'react-dates';
 import MomentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
-import { ControlLabel } from 'react-bootstrap';
-import strings from '../config/strings';
 
 const propTypes = {
   startDate: MomentPropTypes.momentObj,
