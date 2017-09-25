@@ -1,6 +1,7 @@
 const users = {
-  andrzejchm: { password: 'abc', token: 'def', role: 'manager' },
+  andrzejchm: { password: 'abc', token: 'def', role: 'admin' },
   user: { password: 'user', token: 'user', role: 'user' },
+  manager: { password: 'manager', token: 'user', role: 'manager' },
 };
 
 const guid = () => {
@@ -8,7 +9,7 @@ const guid = () => {
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
 };
 
-export default {
+const dao = {
   credentialsMatch(credentials) {
     const user = users[credentials.username];
     return (user && user.password === credentials.password);
@@ -20,11 +21,24 @@ export default {
 
   getUserBasic(username) {
     const user = this.getWholeUserRow(username);
-    return { username, role: user.role };
+    if (user) {
+      return { username, role: user.role };
+    }
+    return null;
+  },
+
+  getUsersListBasic() {
+    return Object.keys(users).map(key => dao.getUserBasic(key));
   },
 
   userWithToken(token) {
-    return Object.keys(users).map(key => users[key]).find(elem => elem.token === token);
+    const userItem = Object.keys(users)
+      .map(key => ({ username: key, user: users[key] }))
+      .find(elem => elem.user.token === token);
+    if (userItem) {
+      return { ...userItem.user, username: userItem.username };
+    }
+    return null;
   },
 
   addUser(user) {
@@ -35,9 +49,15 @@ export default {
     };
   },
 
+  removeUser(username) {
+    delete users[username];
+  },
+
   getUsersContainingUsername(searchPhrase) {
     return Object.keys(users)
       .filter(username => username.toLowerCase().indexOf(searchPhrase.toLowerCase()) !== -1)
-      .map(username => this.getUserBasic(username));
+      .map(username => dao.getUserBasic(username));
   },
 };
+
+export default dao;

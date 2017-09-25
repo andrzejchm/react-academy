@@ -3,6 +3,6 @@ import wrap from '../responseWrapper';
 import errorCodes from '../../config/errorCodes';
 
 export default function repairDelete(req, res) {
-  repairs.removeRepairById(+req.param('id'));
+  repairs.removeRepairById(+req.params.id);
   res.json(wrap('ok'));
 }

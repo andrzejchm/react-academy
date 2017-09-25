@@ -1,7 +1,7 @@
 import users from '../../db/users';
 import wrap from '../responseWrapper';
 
-export default function listUsers(req, res) {
+export default function listUsersByUsername(req, res) {
   res.json(
     wrap(
       users.getUsersContainingUsername(

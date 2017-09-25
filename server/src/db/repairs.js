@@ -4,59 +4,80 @@ import users from './users';
 let repairsListInternal = [];
 repairsListInternal.push({
   id: 1,
-  startDate: moment('2017-09-20T19:16:21Z'),
-  endDate: moment('2017-09-20T20:16:21Z'),
+  startDate: moment('2017-09-24T22:00:00Z'),
+  endDate: moment('2017-09-24T23:00:00Z'),
   isCompleted: true,
-  assignedUser: users.getUserBasic('user'),
+  assignedUser: 'user',
 });
 repairsListInternal.push({
   id: 2,
-  startDate: moment('2017-09-20T18:15:21Z'),
-  endDate: moment('2017-09-20T19:15:21Z'),
+  startDate: moment('2017-09-24T23:00:00Z'),
+  endDate: moment('2017-09-25T00:00:00Z'),
   isCompleted: true,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  assignedUser: 'user',
 });
 repairsListInternal.push({
   id: 3,
-  startDate: moment('2017-09-20T17:14:11Z'),
-  endDate: moment('2017-09-20T18:14:11Z'),
-  isCompleted: false,
-  assignedUser: users.getUserBasic('user'),
+  startDate: moment('2017-09-25T00:00:00Z'),
+  endDate: moment('2017-09-25T01:00:00Z'),
+  isCompleted: true,
+  assignedUser: 'user',
 });
 repairsListInternal.push({
   id: 4,
-  startDate: moment('2017-09-20T16:13:01Z'),
-  endDate: moment('2017-09-20T17:13:01Z'),
-  isCompleted: false,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  startDate: moment('2017-09-25T01:00:00Z'),
+  endDate: moment('2017-09-25T02:00:00Z'),
+  isCompleted: true,
+  assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
   id: 5,
-  startDate: moment('2017-09-20T15:11:21Z'),
-  endDate: moment('2017-09-20T16:11:21Z'),
-  isCompleted: true,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  startDate: moment('2017-09-25T02:00:00Z'),
+  endDate: moment('2017-09-25T03:00:00Z'),
+  isCompleted: false,
+  assignedUser: 'user',
 });
 repairsListInternal.push({
   id: 6,
-  startDate: moment('2017-09-20T14:10:21Z'),
-  endDate: moment('2017-09-20T15:10:21Z'),
+  startDate: moment('2017-09-25T03:00:00Z'),
+  endDate: moment('2017-09-25T04:00:00Z'),
   isCompleted: false,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
   id: 7,
-  startDate: moment('2017-09-20T13:09:21Z'),
-  endDate: moment('2017-09-20T14:09:21Z'),
-  isCompleted: false,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  startDate: moment('2017-09-25T04:00:00Z'),
+  endDate: moment('2017-09-25T05:00:00Z'),
+  isCompleted: true,
+  assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
   id: 8,
-  startDate: moment('2017-09-20T12:08:21Z'),
-  endDate: moment('2017-09-14T13:08:21Z'),
+  startDate: moment('2017-09-25T05:00:00Z'),
+  endDate: moment('2017-09-25T06:00:00Z'),
+  isCompleted: false,
+  assignedUser: 'andrzejchm',
+});
+repairsListInternal.push({
+  id: 9,
+  startDate: moment('2017-09-25T06:00:00Z'),
+  endDate: moment('2017-09-25T07:00:00Z'),
+  isCompleted: false,
+  assignedUser: 'andrzejchm',
+});
+repairsListInternal.push({
+  id: 10,
+  startDate: moment('2017-09-25T07:00:00Z'),
+  endDate: moment('2017-09-25T08:00:00Z'),
   isCompleted: true,
-  assignedUser: users.getUserBasic('andrzejchm'),
+  assignedUser: 'andrzejchm',
+});
+repairsListInternal.push({
+  id: 11,
+  startDate: moment('2017-09-25T21:00:00Z'),
+  endDate: moment('2017-09-25T22:00:00Z'),
+  isCompleted: true,
+  assignedUser: 'andrzejchm',
 });
 
 export const repairsList = repairsListInternal;
@@ -95,7 +116,7 @@ export function overlapsWitDateRange(value, fromExclusive, toExclusive) {
 function usernameMatches(value, username) {
   if (username) {
     if (value.assignedUser) {
-      return value.assignedUser.username.toLowerCase().indexOf(username.toLowerCase()) !== -1;
+      return value.assignedUser.toLowerCase().indexOf(username.toLowerCase()) !== -1;
     }
     return false;
   }
@@ -117,7 +138,14 @@ function getUniqueId() {
   return id;
 }
 
-export default {
+function repairWithUser(repair) {
+  if (typeof repair.assignedUser === 'string') {
+    return { ...repair, assignedUser: users.getUserBasic(repair.assignedUser) };
+  }
+  return { ...repair };
+}
+
+const dao = {
   getForDateRange: (momentDateFromInclusive, momentDateToExclusive, sortType = 'DATE_ASC',
     username = '', showIncomplete = true, showCompleted = true) => {
     const momentDateFromExclusive = moment(momentDateFromInclusive).subtract(1, 'ms');
@@ -140,27 +168,38 @@ export default {
         break;
     }
 
-    return result;
+    return result.map(repair => repairWithUser(repair));
   },
 
   removeRepairById: (id) => {
     repairsListInternal = repairsListInternal.filter(elem => elem.id !== id);
   },
 
+  getRepairById: id => repairWithUser(repairsListInternal.find(elem => elem.id === +id)),
+
   updateRepair: (repair) => {
     // eslint-disable-next-line no-console
-    this.removeRepairById(repair.id);
-    this.addRepair(repair);
+    console.log(`\n\nupdating repair: ${JSON.stringify(repair)}\n\n`);
+    dao.removeRepairById(repair.id);
+    dao.addRepair(repair);
   },
 
   addRepair: (repair) => {
+    const id = repair.id ? repair.id : getUniqueId();
+
+    const assignedUser = typeof repair.assignedUser === 'object'
+      ? repair.assignedUser.username
+      : repair.assignedUser;
+
     const repairToAdd = {
       ...repair,
-      id: getUniqueId(),
+      id,
       startDate: moment(repair.startDate),
       endDate: moment(repair.endDate),
+      assignedUser,
     };
-    // eslint-disable-next-line no-console
     repairsListInternal.push(repairToAdd);
   },
 };
+
+export default dao;

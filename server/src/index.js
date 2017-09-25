@@ -6,9 +6,15 @@ import configurePassport from './auth';
 import login from './api/auth/login';
 import register from './api/auth/register';
 import repairsList from './api/repairs/listRepairs';
-import usersList from './api/users/listUsers';
+import commentsList from './api/repairs/commentsList';
+import searchUsers from './api/users/usersSearch';
 import repairCreate from './api/repairs/repairCreate';
 import repairDelete from './api/repairs/repairDelete';
+import repairDetails from './api/repairs/repairDetails';
+import repairUpdate from './api/repairs/repairUpdate';
+import commentPost from './api/repairs/commentPost';
+import usersList from './api/users/usersList';
+import userDelete from './api/users/userDelete';
 
 const app = express();
 
@@ -45,9 +51,28 @@ router.route('/repairs')
   .get(authBearer(),
     (req, res) => repairsList(req, res));
 
-router.route('/repairs/:id')
+router.route('/users')
+  .get(authBearer(),
+    (req, res) => usersList(req, res));
+
+router.route('/users/:username')
   .delete(authBearer(),
-    (req, res) => repairDelete(req, res));
+    (req, res) => userDelete(req, res));
+
+router.route('/repairs/:id')
+  .get(authBearer(),
+    (req, res) => repairDetails(req, res))
+  .delete(authBearer(),
+    (req, res) => repairDelete(req, res))
+  .post(authBearer(),
+    (req, res) => repairUpdate(req, res));
+
+router.route('/repairs/:id/comments')
+  .get(authBearer(),
+    (req, res) => commentsList(req, res))
+  .post(authBearer(),
+    (req, res) => commentPost(req, res));
+
 
 router.route('/repairs/create')
   .post(authBearer(),
@@ -55,7 +80,7 @@ router.route('/repairs/create')
 
 router.route('/users/search')
   .get(authBearer(),
-    (req, res) => usersList(req, res));
+    (req, res) => searchUsers(req, res));
 app.use('/api', router);
 
 app.listen(8080, () => {

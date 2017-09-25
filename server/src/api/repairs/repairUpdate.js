@@ -27,14 +27,10 @@ function validateRepair(req, res) {
   return true;
 }
 
-function createRepair(req, res) {
-  repairs.addRepair(req.body);
-  res.status(201);
-  res.json(wrap('ok'));
-}
-
-export default function repairCreate(req, res) {
+export default function repairUpdate(req, res) {
   if (validateRepair(req, res)) {
-    createRepair(req, res);
+    repairs.updateRepair(req.body);
+    res.status(200);
+    res.json(wrap('ok'));
   }
 }
