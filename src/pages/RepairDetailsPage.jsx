@@ -5,7 +5,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import Button from 'react-bootstrap/es/Button';
 import PropTypes from 'prop-types';
 import { Col, Glyphicon, Grid, Image, Row } from 'react-bootstrap';
-import { isAtLeastManager } from '../permissions';
+import { isAtLeastManager, isOnlyUser } from '../permissions';
 import Spinner from '../components/Spinner';
 import { UserInfoShape } from '../model/UserInfo';
 import { RepairDetailsPropType } from '../usecases/repairDetailsDuck';
@@ -16,7 +16,9 @@ import CommentsBoxContainer from '../redux/containers/CommentsBoxContainer';
 
 const propTypes = {
   loadRepairDetails: PropTypes.func.isRequired,
+  proposeCompleteStatus: PropTypes.func.isRequired,
   onRemoveClicked: PropTypes.func.isRequired,
+  confirmCompletionClicked: PropTypes.func.isRequired,
   match: ReactRouterPropTypes.match.isRequired,
   history: ReactRouterPropTypes.history.isRequired,
   repairDetailsState: RepairDetailsPropType.isRequired,
@@ -31,6 +33,7 @@ function onEditClicked(id, history) {
 
 export default function RepairDetailsPage({
   match, repairDetailsState, userInfo, loadRepairDetails, history, onRemoveClicked,
+  proposeCompleteStatus, confirmCompletionClicked,
 }) {
   if (repairDetailsState.removeRepairStatus === STATUS_SUCCESS) {
     return <Redirect to={config.routes.repairs.path} />;
@@ -42,12 +45,21 @@ export default function RepairDetailsPage({
   return repair ? (
     <Grid>
       <Row>
-        <Col xs={12} md={8} mdpush={2}>
+        <Col xs={12} md={6} mdpush={2}>
           <h3>Repair Details</h3>
         </Col>
-        <Col xs={12} md={2} className="text-right">
+        <Col xs={12} md={4} className="text-right">
           {isAtLeastManager(userInfo) && (
             <span>
+              {repair.proposeComplete && !repair.isCompleted && (
+                <Button
+                  bsStyle="success"
+                  style={{ marginLeft: 16 }}
+                  onClick={() => {
+                    confirmCompletionClicked();
+                  }}
+                >{strings.confirm_completed}</Button>
+              )}
               <Button
                 bsStyle="primary"
                 style={{ marginLeft: 16 }}
@@ -67,6 +79,18 @@ export default function RepairDetailsPage({
                 <Glyphicon glyph="remove" />
               </Button>
             </span>
+          )}
+          {isOnlyUser(userInfo) && !repair.proposeComplete && !repair.isCompleted && (
+            <Button
+              bsStyle="primary"
+              style={{ marginLeft: 16 }}
+              onClick={() => {
+                proposeCompleteStatus();
+              }}
+            >{strings.complete_repair_button}</Button>
+          )}
+          {isOnlyUser(userInfo) && repair.proposeComplete && !repair.isCompleted && (
+            <span style={{ color: 'green' }}>{strings.pending_completion_approval}</span>
           )}
         </Col>
       </Row>
@@ -92,7 +116,10 @@ export default function RepairDetailsPage({
       </Row>
       <Row>
         <Col xs={12}>
-          <h4>assigned to: {repair.assignedUser.username}</h4>
+          <h4> {repair.assignedUser
+            ? (<small>assigned to: {repair.assignedUser.username}</small>)
+            : (<span style={{ color: 'red' }}>Not assigned to anyone!</span>)}
+          </h4>
         </Col>
       </Row>
       <Row />

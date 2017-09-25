@@ -13,16 +13,20 @@ const commentsDictionary = {
 
 
 const dao = {
-  getCommentsForRepair: id => (commentsDictionary[id] ?
-    commentsDictionary[id].sort((left, right) => {
-      if (moment(left.date).isBefore(moment(right.date))) {
-        return -1;
-      } else if (moment(right.date).isBefore(moment(left.date))) {
-        return 1;
-      }
-      return 0;
-    })
-    : []),
+  getCommentsForRepair: (id) => {
+    if (commentsDictionary[id]) {
+      return commentsDictionary[id].sort((left, right) => {
+        if (moment(left.date).isBefore(moment(right.date))) {
+          return -1;
+        } else if (moment(right.date).isBefore(moment(left.date))) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    commentsDictionary[id] = [];
+    return commentsDictionary[id];
+  },
 };
 
 export default dao;

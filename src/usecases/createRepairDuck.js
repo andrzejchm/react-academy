@@ -185,7 +185,7 @@ export function onApplyClickedAction() {
       ACTION_CREATE_REPAIR,
       endpoint,
       new Repair(getRepairId(getState()), getStartDate(getState()), getEndDate(getState()),
-        getIsCompleted(getState()), getUser(getState())).toApiPayload(),
+        getIsCompleted(getState()), getUser(getState()), false).toApiPayload(),
     )(dispatch, getState);
   };
 }

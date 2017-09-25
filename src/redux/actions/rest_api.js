@@ -15,6 +15,8 @@ export const ENDPOINTS = {
     `&showIncomplete=${showIncomplete}&showCompleted=${showCompleted}`,
   usersByName: name => `/users/search?username=${name}`,
   removeRepair: id => `/repairs/${id}`,
+  proposeRepairComplete: id => `/repairs/${id}/proposeComplete`,
+  approveRepairCompletion: id => `/repairs/${id}/approveCompletion`,
   repairDetails: id => `/repairs/${id}`,
   createRepair: '/repairs/create',
   editRepair: id => `/repairs/${id}`,

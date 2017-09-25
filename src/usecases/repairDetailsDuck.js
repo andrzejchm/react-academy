@@ -10,6 +10,8 @@ import { DELETE, doRequest, ENDPOINTS, GET, STATUS_NONE } from '../redux/actions
 const PREFIX = 'REPAIR_DETAILS';
 const ACTION_LOAD_REPAIR_DETAILS = `${PREFIX}/GET_REPAIR_DETAILS`;
 const ACTION_REMOVE_REPAIR = `${PREFIX}/REMOVE_REPAIR`;
+const ACTION_PROPOSE_COMPLETE_STATUS = `${PREFIX}/PROPOSE_COMPLETE`;
+const ACTION_APPROVE_COMPLETION = `${PREFIX}/APPROVE_COMPLETION`;
 
 export const initialState = {
   repair: apiInitialState,
@@ -54,6 +56,26 @@ export function onRemoveClickedAction() {
   };
 }
 
+export function onProposeCompleteStatusAction() {
+  return (dispatch, getState) => {
+    doRequest(GET,
+      ACTION_PROPOSE_COMPLETE_STATUS,
+      ENDPOINTS.proposeRepairComplete(getState().repairDetails.repair.payload.id),
+    )(dispatch, getState);
+  };
+}
+
+export function confirmCompletionClickedAction() {
+  return (dispatch, getState) => {
+    doRequest(GET,
+      ACTION_APPROVE_COMPLETION,
+      ENDPOINTS.approveRepairCompletion(getState().repairDetails.repair.payload.id),
+      null,
+      () =>
+        loadRepairDetailsAction(getState().repairDetails.repair.payload.id)(dispatch, getState),
+    )(dispatch, getState);
+  };
+}
 
 export const RepairDetailsPropType = PropTypes.shape({
   repair: ApiResponseShape(RepairShape),

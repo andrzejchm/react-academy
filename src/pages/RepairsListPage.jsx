@@ -15,6 +15,7 @@ import CreateRepairButton from '../components/CreateRepairButton';
 import config from '../config/config';
 import strings from '../config/strings';
 import { toLocalStartOfDayInUtc } from '../model/RepairListFilters';
+import { isOnlyUser } from '../permissions';
 
 const propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
@@ -40,11 +41,21 @@ export default class RepairsListPage extends Component {
       filterPanel, userInfo, repairsList, history, onFilterPanelValuesChanged,
       filtersApplied, getUsersByName, onRemoveClick,
     } = this.props;
+    const selectedDate = toLocalStartOfDayInUtc(repairsList.appliedFilters.date)
+      .local()
+      .format('D MMM');
     return (
       <div style={{ marginBottom: 32 }}>
         <Row>
           <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
-            <h3>{strings.repairs_list_for(toLocalStartOfDayInUtc(repairsList.appliedFilters.date).local().format('D MMM'))}</h3>
+            {isOnlyUser(userInfo)
+              ? (
+                <h3>{strings.my_repairs_list_for(selectedDate)}</h3>
+              )
+              : (
+                <h3>{strings.repairs_list_for(selectedDate)}</h3>
+              )}
+
           </Col>
           <Col xs={9} sm={3}>
             <FiltersSortTypeSelector
@@ -60,6 +71,7 @@ export default class RepairsListPage extends Component {
           </Col>
         </Row>
         <FiltersPanel
+          userInfo={userInfo}
           appliedFilters={repairsList.appliedFilters}
           filterPanel={filterPanel}
           onFilterPanelValuesChanged={filters => onFilterPanelValuesChanged(filters)}

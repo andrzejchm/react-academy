@@ -7,6 +7,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-24T22:00:00Z'),
   endDate: moment('2017-09-24T23:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'user',
 });
 repairsListInternal.push({
@@ -14,6 +15,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-24T23:00:00Z'),
   endDate: moment('2017-09-25T00:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'user',
 });
 repairsListInternal.push({
@@ -21,6 +23,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T00:00:00Z'),
   endDate: moment('2017-09-25T01:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'user',
 });
 repairsListInternal.push({
@@ -28,6 +31,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T01:00:00Z'),
   endDate: moment('2017-09-25T02:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -35,6 +39,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T02:00:00Z'),
   endDate: moment('2017-09-25T03:00:00Z'),
   isCompleted: false,
+  proposeComplete: true,
   assignedUser: 'user',
 });
 repairsListInternal.push({
@@ -42,6 +47,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T03:00:00Z'),
   endDate: moment('2017-09-25T04:00:00Z'),
   isCompleted: false,
+  proposeComplete: true,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -49,6 +55,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T04:00:00Z'),
   endDate: moment('2017-09-25T05:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -56,6 +63,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T05:00:00Z'),
   endDate: moment('2017-09-25T06:00:00Z'),
   isCompleted: false,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -63,6 +71,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T06:00:00Z'),
   endDate: moment('2017-09-25T07:00:00Z'),
   isCompleted: false,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -70,6 +79,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T07:00:00Z'),
   endDate: moment('2017-09-25T08:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 repairsListInternal.push({
@@ -77,6 +87,7 @@ repairsListInternal.push({
   startDate: moment('2017-09-25T21:00:00Z'),
   endDate: moment('2017-09-25T22:00:00Z'),
   isCompleted: true,
+  proposeComplete: false,
   assignedUser: 'andrzejchm',
 });
 

@@ -15,6 +15,8 @@ import repairUpdate from './api/repairs/repairUpdate';
 import commentPost from './api/repairs/commentPost';
 import usersList from './api/users/usersList';
 import userDelete from './api/users/userDelete';
+import repairProposeComplete from './api/repairs/repairProposeComplete';
+import repairApproveCompletion from './api/repairs/repairApproveCompletion';
 
 const app = express();
 
@@ -66,6 +68,15 @@ router.route('/repairs/:id')
     (req, res) => repairDelete(req, res))
   .post(authBearer(),
     (req, res) => repairUpdate(req, res));
+
+router.route('/repairs/:id/proposeComplete')
+  .get(authBearer(),
+    (req, res) => repairProposeComplete(req, res));
+
+router.route('/repairs/:id/approveCompletion')
+  .get(authBearer(),
+    (req, res) => repairApproveCompletion(req, res));
+
 
 router.route('/repairs/:id/comments')
   .get(authBearer(),

@@ -5,12 +5,13 @@ import { userFromApiResponse, UserShape } from './User';
 
 export default class Repair {
   constructor(id = null, startDateString = null, endDateString = null,
-    isCompleted = false, assignedUser = null) {
+    isCompleted = false, assignedUser = null, proposeComplete = false) {
     this.id = id;
     this.startDate = moment(startDateString);
     this.endDate = moment(endDateString);
     this.isCompleted = isCompleted;
     this.assignedUser = assignedUser;
+    this.proposeComplete = proposeComplete;
   }
 
   toApiPayload() {
@@ -29,6 +30,7 @@ export function repairFromApiResponse(apiResponse) {
     moment(apiResponse.endDate),
     apiResponse.isCompleted,
     userFromApiResponse(apiResponse.assignedUser),
+    apiResponse.proposeComplete,
   ) };
 }
 

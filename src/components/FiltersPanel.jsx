@@ -10,8 +10,11 @@ import FiltersCompletedStatePicker from './FiltersCompletedStatePicker';
 import strings from '../config/strings';
 import ChooseUserDropDown from './ChooseUserDropDown';
 import { FilterPanelShape } from '../usecases/repairsFiltersPanelDuck';
+import { isAtLeastManager } from '../permissions';
+import { UserInfoShape } from '../model/UserInfo';
 
 const propTypes = {
+  userInfo: UserInfoShape.isRequired,
   filterPanel: FilterPanelShape.isRequired,
   appliedFilters: RepairListFiltersShape.isRequired,
   expanded: PropTypes.bool.isRequired,
@@ -31,6 +34,7 @@ export default function FiltersPanel({
   onFilterPanelValuesChanged,
   onFiltersApplied,
   getUsersByName,
+  userInfo,
 }) {
   return (<Panel collapsible expanded={expanded}>
     <Form inline>
@@ -44,23 +48,27 @@ export default function FiltersPanel({
             onFilterPanelValuesChanged({ ...filterPanel.filters, date })}
         />
       </FormGroup>
-      <ControlLabel style={{ marginLeft: '16px' }}>
-        {strings.filter_label_choose_user}
-      </ControlLabel>
-      <FormGroup
-        style={{ width: '150px',
-          verticalAlign: 'middle',
-          display: 'inline-block',
-          paddingLeft: '6px' }}
-      >
-        <ChooseUserDropDown
-          getUsersByName={getUsersByName}
-          users={filterPanel.users}
-          selectedUser={filterPanel.filters.assignedUser}
-          onUserSelected={assignedUser =>
-            onFilterPanelValuesChanged({ ...filterPanel.filters, assignedUser })}
-        />
-      </FormGroup>
+      {isAtLeastManager(userInfo) && (
+        <span>
+          <ControlLabel style={{ marginLeft: '16px' }}>
+            {strings.filter_label_choose_user}
+          </ControlLabel>
+          <FormGroup
+            style={{ width: '150px',
+              verticalAlign: 'middle',
+              display: 'inline-block',
+              paddingLeft: '6px' }}
+          >
+            <ChooseUserDropDown
+              getUsersByName={getUsersByName}
+              users={filterPanel.users}
+              selectedUser={filterPanel.filters.assignedUser}
+              onUserSelected={assignedUser =>
+                onFilterPanelValuesChanged({ ...filterPanel.filters, assignedUser })}
+            />
+          </FormGroup>
+        </span>
+      )}
       <FormGroup>
         <FiltersTimePicker
           startTime={filterPanel.filters.startTime}

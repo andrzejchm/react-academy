@@ -1,4 +1,4 @@
-import { USER_ROLE_ADMIN, USER_ROLE_MANAGER } from './model/UserInfo';
+import { USER_ROLE_ADMIN, USER_ROLE_MANAGER, USER_ROLE_USER } from './model/UserInfo';
 
 export function isLoggedIn(state) {
   return state.username || (state.auth.userInfo && state.auth.userInfo.username);
@@ -13,4 +13,9 @@ export function isAtLeastManager(state) {
 export function isAtLeastAdmin(state) {
   const userInfo = state.auth ? state.auth.userInfo : state;
   return userInfo.role === USER_ROLE_ADMIN;
+}
+
+export function isOnlyUser(state) {
+  const userInfo = state.auth ? state.auth.userInfo : state;
+  return userInfo.role === USER_ROLE_USER;
 }
