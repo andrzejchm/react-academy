@@ -39,10 +39,9 @@ export default function FiltersPanel({
           style={{ marginRight: '6px' }}
         >{strings.filter_label_choose_day}</ControlLabel>&nbsp;
         <SingleDayPicker
-          startDate={filterPanel.filters.startDate}
-          endDate={filterPanel.filters.endDate}
-          onDayChanged={(startDate, endDate) =>
-            onFilterPanelValuesChanged({ ...filterPanel.filters, startDate, endDate })}
+          date={filterPanel.filters.date}
+          onDayChanged={date =>
+            onFilterPanelValuesChanged({ ...filterPanel.filters, date })}
         />
       </FormGroup>
       <ControlLabel style={{ marginLeft: '16px' }}>

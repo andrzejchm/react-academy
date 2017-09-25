@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+export const USER_ROLE_ADMIN = 'admin';
 export const USER_ROLE_MANAGER = 'manager';
 export const USER_ROLE_USER = 'user';
 

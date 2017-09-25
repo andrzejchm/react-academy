@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFilters';
-import config from '../config/config';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import { ACTION_REPAIRS_LIST_FILTERS_APPLIED } from './repairsListDuck';
 import {
@@ -28,10 +27,10 @@ function toggleFiltersVisibilityReducer(state) {
   return { ...state, expanded: !state.expanded };
 }
 
-function locationChangedReducer(state, action) {
-  if (action.payload.pathname !== config.routes.repairs.path) {
-    return initialState;
-  }
+function locationChangedReducer(state) {
+  // if (action.payload.pathname !== config.routes.repairs.path) {
+  //   return initialState;
+  // }
   return state;
 }
 

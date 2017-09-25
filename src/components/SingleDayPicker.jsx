@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { SingleDatePicker } from 'react-dates';
 import MomentPropTypes from 'react-moment-proptypes';
-import moment from 'moment';
+import {
+  getTodayUtcStart, toLocalStartOfDayInUtc,
+} from '../model/RepairListFilters';
 
 const propTypes = {
-  startDate: MomentPropTypes.momentObj,
+  date: MomentPropTypes.momentObj,
   onDayChanged: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
-  startDate: moment().startOf('day'),
+  date: getTodayUtcStart(),
 };
 
 export default class SingleDayPicker extends Component {
@@ -18,7 +21,6 @@ export default class SingleDayPicker extends Component {
     super(props);
     this.state = {
       focused: false,
-      date: props.startDate,
     };
   }
 
@@ -28,14 +30,14 @@ export default class SingleDayPicker extends Component {
 
   dateChanged(date) {
     this.setState({ date });
-    this.props.onDayChanged(moment(date).startOf('day'), moment(date).endOf('day'));
+    this.props.onDayChanged(toLocalStartOfDayInUtc(date.local()));
   }
 
   render() {
     return (
       <span>
         <SingleDatePicker
-          date={this.state.date}
+          date={moment(this.props.date).local()}
           keepOpenOnDateSelect={false}
           focused={this.state.focused}
           numberOfMonths={1}

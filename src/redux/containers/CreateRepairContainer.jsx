@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getUsersByNameAction, onUserSelectedAction, onTimeSelectedAction, onApplyClickedAction,
-  onDateChangedAction } from '../../usecases/createRepairDuck';
+import {
+  getUsersByNameAction, onUserSelectedAction, onTimeSelectedAction, onApplyClickedAction,
+  onDateChangedAction, onEditModeEnteredAction, onIsCompletedClickedAction,
+} from '../../usecases/createRepairDuck';
 import CreateRepairPage from '../../pages/CreateRepairPage';
 
 const mapStateToProps = state => ({
@@ -14,6 +16,8 @@ const mapDispatchToProps = dispatch => ({
   onUserSelected: user => dispatch(onUserSelectedAction(user)),
   onTimeSelected: hour => dispatch(onTimeSelectedAction(hour)),
   onApplyClicked: () => dispatch(onApplyClickedAction()),
+  onIsCompletedClicked: () => dispatch(onIsCompletedClickedAction()),
+  onEditModeEntered: id => dispatch(onEditModeEnteredAction(id)),
 });
 
 const CreateRepairContainer = withRouter(

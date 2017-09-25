@@ -5,11 +5,16 @@ import { UserShape } from './User';
 
 
 export function getTodayUtcStart() {
-  return moment().utcOffset(0).startOf('day');
+  return moment().local().startOf('day').utcOffset(0, false);
 }
 
-function getTodayUtcEnd() {
-  return moment().utcOffset(0).endOf('day');
+export function toLocalStartOfDayInUtc(date) {
+  return moment(date).local().startOf('day').utcOffset(0, false);
+}
+
+
+export function toLocalEndOfDayInUtc(date) {
+  return moment(date).local().endOf('day').utcOffset(0, false);
 }
 
 export function localToUtcHour(value) {
@@ -22,16 +27,14 @@ export function utcToLocalHour(value) {
 
 export default class RepairListFilters {
   constructor(
-    startDate = getTodayUtcStart(),
-    endDate = getTodayUtcEnd(),
-    startTime = localToUtcHour(0),
-    endTime = localToUtcHour(24),
+    date = getTodayUtcStart(),
+    startTime = 0,
+    endTime = 24,
     showCompleted = true,
     showIncomplete = true,
     assignedUser = null,
   ) {
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
     this.showCompleted = showCompleted;
@@ -41,8 +44,7 @@ export default class RepairListFilters {
 }
 
 export function isFiltering(filters) {
-  return filters.startDate !== getTodayUtcStart() ||
-    filters.endDate !== getTodayUtcEnd() ||
+  return filters.date !== getTodayUtcStart() ||
     !filters.showCompleted ||
     !filters.showIncomplete ||
     filters.startTime !== localToUtcHour(0) ||
@@ -51,8 +53,7 @@ export function isFiltering(filters) {
 }
 
 export const RepairListFiltersShape = PropTypes.shape({
-  startDate: MomentPropTypes.momentObj,
-  endDate: MomentPropTypes.momentObj,
+  date: MomentPropTypes.momentObj,
   startTime: PropTypes.number,
   endTime: PropTypes.number,
   showCompleted: PropTypes.bool,

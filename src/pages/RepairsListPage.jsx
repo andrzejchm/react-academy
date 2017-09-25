@@ -14,6 +14,7 @@ import { UserInfoShape } from '../model/UserInfo';
 import CreateRepairButton from '../components/CreateRepairButton';
 import config from '../config/config';
 import strings from '../config/strings';
+import { toLocalStartOfDayInUtc } from '../model/RepairListFilters';
 
 const propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
@@ -40,10 +41,10 @@ export default class RepairsListPage extends Component {
       filtersApplied, getUsersByName, onRemoveClick,
     } = this.props;
     return (
-      <div>
+      <div style={{ marginBottom: 32 }}>
         <Row>
           <Col xs={12} sm={8} style={{ lineHeight: '34px' }}>
-            <h3>{strings.repairs_list_for(repairsList.appliedFilters.startDate.format('D MMM'))}</h3>
+            <h3>{strings.repairs_list_for(toLocalStartOfDayInUtc(repairsList.appliedFilters.date).local().format('D MMM'))}</h3>
           </Col>
           <Col xs={9} sm={3}>
             <FiltersSortTypeSelector

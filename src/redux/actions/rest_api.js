@@ -15,7 +15,13 @@ export const ENDPOINTS = {
     `&showIncomplete=${showIncomplete}&showCompleted=${showCompleted}`,
   usersByName: name => `/users/search?username=${name}`,
   removeRepair: id => `/repairs/${id}`,
+  repairDetails: id => `/repairs/${id}`,
   createRepair: '/repairs/create',
+  editRepair: id => `/repairs/${id}`,
+  postComment: repairId => `/repairs/${repairId}/comments`,
+  getComments: repairId => `/repairs/${repairId}/comments`,
+  deleteUser: username => `/users/${username}`,
+  getUsers: '/users/',
 };
 
 export const POST = 'post';

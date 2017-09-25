@@ -2,13 +2,14 @@ import {
   STATUS_LOADING, STATUS_SUCCESS, STATUS_NONE, POST, ENDPOINTS, doRequest,
 } from '../redux/actions/rest_api';
 import UserInfo from '../model/UserInfo';
+import { getActionType } from '../utils';
 
 export const ACTION_USER_LOGIN = 'AUTH/LOGIN';
 export const ACTION_USER_LOGOUT = 'AUTH/LOGOUT';
 export const ACTION_USER_REGISTER = 'AUTH/REGISTER';
 
 export const initialState = {
-  userInfo: new UserInfo(null, null, null),
+  userInfo: { ...new UserInfo(null, null, null) },
   status: STATUS_NONE,
   error: null,
 };
@@ -50,7 +51,7 @@ function userLogout() {
 }
 
 export default function reducer(state = initialState, action) {
-  switch (action.type.split('#')[0]) {
+  switch (getActionType(action)) {
     case ACTION_USER_LOGOUT:
       return userLogout();
     case ACTION_USER_LOGIN:

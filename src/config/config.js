@@ -9,6 +9,10 @@ export default {
       path: '/repairs/create',
       activeTab: 1,
     },
+    editRepair: id => ({
+      path: `/repairs/${id}/edit`,
+      activeTab: 1,
+    }),
     repairDetails: id => ({
       path: `/repairs/${id}`,
       activeTab: 1,

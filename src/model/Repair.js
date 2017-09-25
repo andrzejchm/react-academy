@@ -4,7 +4,8 @@ import moment from 'moment';
 import { userFromApiResponse, UserShape } from './User';
 
 export default class Repair {
-  constructor(id, startDateString, endDateString, isCompleted, assignedUser) {
+  constructor(id = null, startDateString = null, endDateString = null,
+    isCompleted = false, assignedUser = null) {
     this.id = id;
     this.startDate = moment(startDateString);
     this.endDate = moment(endDateString);

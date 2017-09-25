@@ -9,7 +9,6 @@ import { repairFromApiResponse, RepairShape } from '../model/Repair';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFilters';
 import { ApiResponseShape } from '../model/ApiResponse';
-import config from '../config/config';
 import { getActionType } from '../utils';
 
 
@@ -46,12 +45,10 @@ function getRepairsListReducer(state, action) {
 
 function fetchRepairsListAction(state) {
   return doRequest(GET, ACTION_GET_REPAIRS_LIST, ENDPOINTS.repairsList(
-    moment(state.appliedFilters.startDate)
-      .add(state.appliedFilters.startTime, 'hours').valueOf(),
-    moment(state.appliedFilters.endDate)
-      .add(state.appliedFilters.endTime - 24, 'hours').valueOf() + 2,
-    // end of day is 23:59:59:999 and we want to include dates that end with 24:00:00:000
-    // so we add +2 since endDate is exclusive
+    moment(state.appliedFilters.date)
+      .add(state.appliedFilters.startTime, 'hours').valueOf() + 1,
+    moment(state.appliedFilters.date)
+      .add(state.appliedFilters.endTime, 'hours').valueOf(),
     state.sortType,
     state.appliedFilters.assignedUser ? state.appliedFilters.assignedUser.username : '',
     state.appliedFilters.showCompleted,
@@ -63,10 +60,10 @@ function filtersChangeReducer(state, action) {
   return { ...state, appliedFilters: action.payload };
 }
 
-function locationChangedReducer(state, action) {
-  if (action.payload.pathname !== config.routes.repairs.path) {
-    return initialState;
-  }
+function locationChangedReducer(state) {
+  // if (action.payload.pathname !== config.routes.repairs.path) {
+  //   return initialState;
+  // }
   return state;
 }
 
@@ -75,9 +72,6 @@ function sortTypeChangedReducer(state, action) {
 }
 
 function removeRepairReducer(state, action) {
-  if (action.status === STATUS_SUCCESS) {
-    return { ...state, removeRepairStatus: action.status };
-  }
   return { ...state, removeRepairStatus: action.status };
 }
 

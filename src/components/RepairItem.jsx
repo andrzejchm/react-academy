@@ -14,9 +14,10 @@ const propTypes = {
   userInfo: UserInfo.isRequired,
   onClick: PropTypes.func.isRequired,
   onRemoveClicked: PropTypes.func.isRequired,
+  onEditClicked: PropTypes.func.isRequired,
 };
 
-const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked }) => (
+const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked, onEditClicked }) => (
   <div
     onClick={() => onClick()}
     role="button"
@@ -32,12 +33,9 @@ const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked }) => (
       </Media.Left>
 
       <Media.Body>
-        <Media.Heading>
-          <b>
-            {repair.name}
-          </b>
-        </Media.Heading>
-        <small>assigned to: {repair.assignedUser.username}</small>
+        {repair.assignedUser
+          ? (<small>assigned to: {repair.assignedUser.username}</small>)
+          : (<span style={{ color: 'red' }}>Not assigned to anyone!</span>)}
         <p>
           {!repair.isCompleted
             ? <span />
@@ -55,16 +53,29 @@ const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked }) => (
         <div style={{ width: 200 }} className="text-right">
           <small>{repair.startDate.format('HH:mm')}&nbsp;- &nbsp;{repair.endDate.format('HH:mm')}</small>
           {isAtLeastManager(userInfo) && (
-            <Button
-              bsStyle="link"
-              style={{ marginLeft: 16 }}
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemoveClicked();
-              }}
-            >
-              <Glyphicon glyph="remove" />
-            </Button>)}
+            <span>
+              <Button
+                bsStyle="link"
+                style={{ marginLeft: 16 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEditClicked();
+                }}
+              >
+                <Glyphicon glyph="edit" />
+              </Button>
+              <Button
+                bsStyle="link"
+                style={{ marginLeft: 16 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemoveClicked();
+                }}
+              >
+                <Glyphicon glyph="remove" />
+              </Button>
+            </span>
+          )}
         </div>
       </Media.Right>
     </Media>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { ControlLabel } from 'react-bootstrap';
 import strings from '../config/strings';
-import { localToUtcHour, utcToLocalHour } from '../model/RepairListFilters';
 
 const propTypes = {
   startTime: PropTypes.number.isRequired,
@@ -12,13 +11,13 @@ const propTypes = {
   onEndTimeChanged: PropTypes.func.isRequired,
 };
 
-function getOptions(lowerLimit = localToUtcHour(0), upperLimit = localToUtcHour(24)) {
+function getOptions(lowerLimit = (0), upperLimit = (24)) {
   const options = [];
   for (let i = lowerLimit; i < upperLimit + 1; i += 1) {
     if (i > 9) {
-      options.push({ value: localToUtcHour(i), label: `${i}:00` });
+      options.push({ value: (i), label: `${i}:00` });
     } else {
-      options.push({ value: localToUtcHour(i), label: `0${i}:00` });
+      options.push({ value: (i), label: `0${i}:00` });
     }
   }
   return options;
@@ -41,7 +40,7 @@ export default function FiltersTimePicker({
           clearable={false}
           searchable={false}
           value={startTime}
-          options={getOptions(0, utcToLocalHour(endTime - 1))}
+          options={getOptions(0, endTime - 1)}
           onChange={val => onStartTimeChanged(val.value)}
         />
       </span>
@@ -52,7 +51,7 @@ export default function FiltersTimePicker({
           clearable={false}
           searchable={false}
           value={endTime}
-          options={getOptions(utcToLocalHour(startTime + 1), 24)}
+          options={getOptions(startTime + 1, 24)}
           onChange={val => onEndTimeChanged(val.value)}
         />
       </span>

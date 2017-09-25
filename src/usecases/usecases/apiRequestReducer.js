@@ -1,4 +1,3 @@
-
 import { STATUS_NONE } from '../../redux/actions/rest_api';
 import { getActionType } from '../../utils';
 

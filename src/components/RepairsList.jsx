@@ -31,6 +31,11 @@ function RepairsList({ userInfo, repairsList, history, onRemoveClick }) {
     history.push(repairDetails);
   }
 
+  function onEditRepairClick(repair) {
+    const repairDetails = config.routes.editRepair(repair.id).path;
+    history.push(repairDetails);
+  }
+
   function hasRepairs() {
     return repairsList.status === STATUS_SUCCESS
       && repairsList.payload.length;
@@ -55,6 +60,7 @@ function RepairsList({ userInfo, repairsList, history, onRemoveClick }) {
             key={repair.id}
             repair={repair}
             onRemoveClicked={() => onRemoveClick(repair)}
+            onEditClicked={() => onEditRepairClick(repair)}
             onClick={() => onRepairClick(repair)}
           />))}
       </ListGroup>
