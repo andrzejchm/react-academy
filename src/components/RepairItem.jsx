@@ -1,17 +1,18 @@
 import React from 'react';
 import Radium from 'radium';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Button, Glyphicon, Image, Media } from 'react-bootstrap';
 import globalStyles from '../config/styles';
 import { RepairShape } from '../model/Repair';
-import UserInfo from '../model/UserInfo';
+import { UserInfoShape } from '../model/UserInfo';
 import { isAtLeastManager } from '../permissions';
 
 require('moment-duration-format');
 
 const propTypes = {
   repair: RepairShape.isRequired,
-  userInfo: UserInfo.isRequired,
+  userInfo: UserInfoShape.isRequired,
   onClick: PropTypes.func.isRequired,
   onRemoveClicked: PropTypes.func.isRequired,
   onEditClicked: PropTypes.func.isRequired,
@@ -51,7 +52,11 @@ const RepairItem = Radium(({ userInfo, repair, onClick, onRemoveClicked, onEditC
       </Media.Body>
       <Media.Right>
         <div style={{ width: 200 }} className="text-right">
-          <small>{repair.startDate.format('HH:mm')}&nbsp;- &nbsp;{repair.endDate.format('HH:mm')}</small>
+          <small>
+            {moment(repair.startDate).format('HH:mm')}
+          &nbsp;- &nbsp;
+            {moment(repair.endDate).format('HH:mm')}
+          </small>
           {isAtLeastManager(userInfo) && (
             <span>
               <Button

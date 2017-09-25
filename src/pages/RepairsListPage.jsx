@@ -19,7 +19,7 @@ import { isOnlyUser } from '../permissions';
 
 const propTypes = {
   history: ReactRouterPropTypes.history.isRequired,
-  repairsList: RepairsListShape.isRequired,
+  repairsListState: RepairsListShape.isRequired,
   userInfo: UserInfoShape.isRequired,
   filterPanel: FilterPanelShape.isRequired,
   triggerRepairsListFetch: PropTypes.func.isRequired,
@@ -32,16 +32,16 @@ const propTypes = {
 };
 
 export default class RepairsListPage extends Component {
-  componentWillMount() {
-    this.props.triggerRepairsListFetch(this.props.repairsList.appliedFilters);
+  componentDidMount() {
+    this.props.triggerRepairsListFetch(this.props.repairsListState.appliedFilters);
   }
 
   render() {
     const {
-      filterPanel, userInfo, repairsList, history, onFilterPanelValuesChanged,
+      filterPanel, userInfo, repairsListState, history, onFilterPanelValuesChanged,
       filtersApplied, getUsersByName, onRemoveClick,
     } = this.props;
-    const selectedDate = toLocalStartOfDayInUtc(repairsList.appliedFilters.date)
+    const selectedDate = toLocalStartOfDayInUtc(repairsListState.appliedFilters.date)
       .local()
       .format('D MMM');
     return (
@@ -59,7 +59,7 @@ export default class RepairsListPage extends Component {
           </Col>
           <Col xs={9} sm={3}>
             <FiltersSortTypeSelector
-              sortType={repairsList.sortType}
+              sortType={repairsListState.sortType}
               onSortTypeChanged={sortType => this.props.sortTypeChanged(sortType)}
             />
           </Col>
@@ -72,7 +72,7 @@ export default class RepairsListPage extends Component {
         </Row>
         <FiltersPanel
           userInfo={userInfo}
-          appliedFilters={repairsList.appliedFilters}
+          appliedFilters={repairsListState.appliedFilters}
           filterPanel={filterPanel}
           onFilterPanelValuesChanged={filters => onFilterPanelValuesChanged(filters)}
           onFiltersApplied={filters => filtersApplied(filters)}
@@ -81,7 +81,7 @@ export default class RepairsListPage extends Component {
         />
         <RepairsList
           userInfo={userInfo}
-          repairsList={repairsList}
+          repairsList={repairsListState.repairs}
           history={history}
           onRemoveClick={repair => onRemoveClick(repair)}
         />

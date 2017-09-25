@@ -3,8 +3,9 @@ import { withRouter } from 'react-router-dom';
 import RepairDetailsPage from '../../pages/RepairDetailsPage';
 import {
   confirmCompletionClickedAction,
-  loadRepairDetailsAction, onProposeCompleteStatusAction,
-  onRemoveClickedAction
+  loadRepairDetailsAction,
+  onProposeCompleteStatusAction,
+  onRemoveClickedAction,
 } from '../../usecases/repairDetailsDuck';
 
 const mapStateToProps = state => ({

@@ -3,10 +3,9 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import getReducerForApiRequest,
 { initialState as apiInitialState } from './usecases/apiRequestReducer';
 import { getActionType } from '../utils';
-import { RepairShape } from '../model/Repair';
 import { ApiResponseShape } from '../model/ApiResponse';
 import { doRequest, ENDPOINTS, GET, POST } from '../redux/actions/rest_api';
-import { postCommentBody } from '../model/CommentItem';
+import { CommentItemPropType, postCommentBody } from '../model/CommentItem';
 
 const PREFIX = 'COMMENTS';
 const ACTION_COMMENT_CHANGED = `${PREFIX}/COMMENT_CHANGED`;
@@ -67,6 +66,6 @@ export function onCommentButtonClickedAction(id) {
 }
 
 export const CommentsPropType = PropTypes.shape({
-  comments: ApiResponseShape(RepairShape),
+  comments: ApiResponseShape(PropTypes.arrayOf(CommentItemPropType)),
   typedInComment: PropTypes.string,
 });

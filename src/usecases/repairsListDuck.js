@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
   DELETE,
-  doRequest, ENDPOINTS, GET, STATUS_NONE, STATUS_SUCCESS,
-} from '../redux/actions/rest_api';
+  doRequest, ENDPOINTS, GET, STATUS_NONE } from '../redux/actions/rest_api';
+import apiRequestReducer, { initialState as apiInitialState } from './usecases/apiRequestReducer';
 import { repairFromApiResponse, RepairShape } from '../model/Repair';
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFilters';
@@ -20,27 +20,25 @@ const ACTION_REMOVE_REPAIR = 'REPAIRS_LIST/REMOVE_REPAIR';
 export const DEFAULT_SORT_TYPE = 'DATE_ASC';
 
 export const initialState = {
-  payload: null,
-  status: STATUS_NONE,
-  error: null,
+  repairs: apiInitialState,
   appliedFilters: { ...new RepairListFilters() },
   sortType: DEFAULT_SORT_TYPE,
   removeRepairStatus: STATUS_NONE,
 };
 
 function getRepairsListReducer(state, action) {
+  const newRepairs = apiRequestReducer(ACTION_GET_REPAIRS_LIST)(state.repairs, action);
   let newPayload;
   if (action.payload) {
     newPayload = action.payload.map(elem => repairFromApiResponse(elem));
   } else {
     newPayload = action.payload;
   }
-  const newState = { ...state };
-  Object.assign(newState, action);
-  newState.payload = newPayload;
-  delete newState.type;
-  delete newState.headers;
-  return newState;
+  Object.assign(newRepairs, action);
+  newRepairs.payload = newPayload;
+  delete newRepairs.type;
+  delete newRepairs.headers;
+  return { ...state, repairs: newRepairs };
 }
 
 function fetchRepairsListAction(state) {
@@ -61,9 +59,6 @@ function filtersChangeReducer(state, action) {
 }
 
 function locationChangedReducer(state) {
-  // if (action.payload.pathname !== config.routes.repairs.path) {
-  //   return initialState;
-  // }
   return state;
 }
 
@@ -123,6 +118,6 @@ export function triggerRepairsListFetch() {
 }
 
 export const RepairsListShape = PropTypes.shape({
-  ...ApiResponseShape(PropTypes.arrayOf(RepairShape)),
+  repairs: ApiResponseShape(PropTypes.arrayOf(RepairShape)),
   appliedFilters: RepairListFiltersShape,
 });

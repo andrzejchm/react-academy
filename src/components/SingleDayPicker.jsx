@@ -25,12 +25,16 @@ export default class SingleDayPicker extends Component {
   }
 
   onFocusChange(focused) {
-    this.setState({ focused });
+    if (focused !== this.state.focused) {
+      this.setState({ focused });
+    }
   }
 
   dateChanged(date) {
-    this.setState({ date });
-    this.props.onDayChanged(toLocalStartOfDayInUtc(date.local()));
+    if (date !== this.state.date) {
+      this.setState({ date });
+      this.props.onDayChanged(toLocalStartOfDayInUtc(date.local()));
+    }
   }
 
   render() {

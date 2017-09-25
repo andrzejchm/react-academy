@@ -11,7 +11,7 @@ import {
 } from '../../usecases/repairsFiltersPanelDuck';
 
 const mapStateToProps = state => ({
-  repairsList: state.repairsList,
+  repairsListState: state.repairsList,
   filterPanel: state.repairsFiltersPanel,
   userInfo: state.auth.userInfo,
 });

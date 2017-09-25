@@ -1,4 +1,4 @@
-import { Button, Col, Glyphicon, Image, Media, Panel } from 'react-bootstrap';
+import { Button, Glyphicon, Image, Media, Panel } from 'react-bootstrap';
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'react-select/dist/react-select.css';
@@ -8,22 +8,23 @@ import { UserInfoShape } from '../model/UserInfo';
 
 const propTypes = {
   onRemoveUser: PropTypes.func.isRequired,
-  users: PropTypes.arrayOf(UserShape).isRequired,
+  users: PropTypes.arrayOf(UserShape),
   userInfo: UserInfoShape.isRequired,
 };
 
 const defaultProps = {
+  users: null,
 };
 
 function shouldShowRemoveButton(userInfo, user) {
-  return isAtLeastAdmin(userInfo) && userInfo.username !== user.username
+  return isAtLeastAdmin(userInfo) && userInfo.username !== user.username;
 }
 
 function UsersList({ users, userInfo, onRemoveUser }) {
   return (
     <div>
       {users && users.length ? users.map(user => (
-        <Panel>
+        <Panel key={user.username}>
           <Media>
             <Media.Left>
               <Image

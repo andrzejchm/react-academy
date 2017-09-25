@@ -4,7 +4,7 @@ import RepairListFilters, { RepairListFiltersShape } from '../model/RepairListFi
 import { ACTION_USER_LOGOUT } from '../usecases/authDuck';
 import { ACTION_REPAIRS_LIST_FILTERS_APPLIED } from './repairsListDuck';
 import {
-  doRequest, ENDPOINTS, GET, } from '../redux/actions/rest_api';
+  doRequest, ENDPOINTS, GET } from '../redux/actions/rest_api';
 import getReducerForApiRequest,
 { initialState as apiInitialState } from './usecases/apiRequestReducer';
 import { ApiResponseShape } from '../model/ApiResponse';

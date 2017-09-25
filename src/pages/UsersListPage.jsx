@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Col, Grid } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import UsersList from '../components/UsersList';
@@ -18,24 +18,33 @@ const defaultProps = {
 
 };
 
-export default function UsersListPage({
-  userInfo, usersListState, getUsers, removeUserClicked,
-}) {
-  if (usersListState.list.status === STATUS_NONE) {
-    getUsers();
+export default class UsersListPage extends Component {
+  componentDidMount() {
+    const { usersListState, getUsers } = this.props;
+    if (usersListState.list.status === STATUS_NONE) {
+      getUsers();
+    }
   }
-  return (
-    <Grid>
-      <Col xs={10} xsPush={1}>
-        <h3 style={{ marginBottom: 32 }}>{strings.users_title}</h3>
-        <UsersList
-          userInfo={userInfo}
-          users={usersListState.list.payload}
-          onRemoveUser={user => removeUserClicked(user)}
-        />
-      </Col>
-    </Grid>
-  );
+
+  render() {
+    const {
+      userInfo,
+      usersListState,
+      removeUserClicked,
+    } = this.props;
+    return (
+      <Grid>
+        <Col xs={10} xsPush={1}>
+          <h3 style={{ marginBottom: 32 }}>{strings.users_title}</h3>
+          <UsersList
+            userInfo={userInfo}
+            users={usersListState.list.payload}
+            onRemoveUser={user => removeUserClicked(user)}
+          />
+        </Col>
+      </Grid>
+    );
+  }
 }
 
 UsersListPage.propTypes = propTypes;

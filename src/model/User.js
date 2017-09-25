@@ -13,9 +13,8 @@ export const UserShape = PropTypes.shape({
 });
 
 export function userFromApiResponse(apiResponse) {
-  if(apiResponse) {
+  if (apiResponse) {
     return new User(apiResponse.username, apiResponse.role);
-  } else {
-    return null;
   }
+  return null;
 }

@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
-import MomentPropTypes from 'react-moment-proptypes';
-import moment from 'moment';
 import { userFromApiResponse, UserShape } from './User';
 
 export default class Repair {
   constructor(id = null, startDateString = null, endDateString = null,
     isCompleted = false, assignedUser = null, proposeComplete = false) {
     this.id = id;
-    this.startDate = moment(startDateString);
-    this.endDate = moment(endDateString);
+    this.startDate = startDateString;
+    this.endDate = endDateString;
     this.isCompleted = isCompleted;
     this.assignedUser = assignedUser;
     this.proposeComplete = proposeComplete;
@@ -26,8 +24,8 @@ export default class Repair {
 export function repairFromApiResponse(apiResponse) {
   return { ...new Repair(
     apiResponse.id,
-    moment(apiResponse.startDate),
-    moment(apiResponse.endDate),
+    apiResponse.startDate,
+    apiResponse.endDate,
     apiResponse.isCompleted,
     userFromApiResponse(apiResponse.assignedUser),
     apiResponse.proposeComplete,
@@ -36,8 +34,8 @@ export function repairFromApiResponse(apiResponse) {
 
 export const RepairShape = PropTypes.shape({
   id: PropTypes.number,
-  startDate: MomentPropTypes.momentObj,
-  endDate: MomentPropTypes.momentObj,
+  startDate: PropTypes.string,
+  endDate: PropTypes.string,
   isCompleted: PropTypes.bool,
   assignedUser: UserShape,
 });

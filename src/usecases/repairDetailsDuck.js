@@ -79,4 +79,5 @@ export function confirmCompletionClickedAction() {
 
 export const RepairDetailsPropType = PropTypes.shape({
   repair: ApiResponseShape(RepairShape),
+  removeRepairStatus: PropTypes.string,
 });

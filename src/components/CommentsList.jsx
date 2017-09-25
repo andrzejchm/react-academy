@@ -1,10 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import { Col, Panel, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import 'react-select/dist/react-select.css';
 import { CommentItemPropType } from '../model/CommentItem';
 import strings from '../config/strings';
-import moment from 'moment';
 
 const propTypes = {
   list: PropTypes.arrayOf(CommentItemPropType),
@@ -18,7 +18,7 @@ function CommentsList({ list }) {
   return list && list.length ?
     (<div>
       {list.map(item => (
-        <Panel>
+        <Panel key={item.date}>
           <Row style={{ color: '#999' }}>
             <Col xs={6}>
               <small>{strings.user_wrote_format(item.user.username)}</small>
